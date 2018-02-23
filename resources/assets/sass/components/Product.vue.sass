@@ -1,0 +1,67 @@
+.product
+  +lg(width, $product-lg + 20px)
+  +md(width, $product-md + 20px)
+  +sm(width, $product-sm + 20px)
+  +xs(width, $product-xs + 20px)
+  width: $product-xl
+  margin: 0 auto
+  padding: 10px
+  transition: all .15s ease-in
+  z-index: 1000
+
+  &:hover
+    +z-depth-1()
+
+  &-column
+    +col()
+    +size(4)
+    +size-lg(4)
+    +size-md(6)
+    +size-sm(6)
+    +size-xs(12)
+    +size-xxs(12)
+    cursor: pointer
+    margin-bottom: 10px
+
+  &-view
+    +lg(height, $product-lg)
+    +md(height, $product-md)
+    +sm(height, $product-sm)
+    +xs(height, $product-xs)
+    height: $product-xl
+    position: relative
+
+  &-name, &-price
+    font-family: $font-helv-thin
+    font-size: 16px
+
+  &-name
+    margin-top: 10px
+
+  &-price
+    display: inline-block
+    color: #000
+
+    &.discount
+      text-decoration: line-through
+      color: rgba(0, 0, 0, .5)
+
+    &::after
+      content: attr(data-new)
+      display: inline-block
+      color: #000
+      margin-left: 5px
+
+  &-meta
+    +z-depth-half()
+    display: inline-block
+    position: absolute
+    background-color: $color-main
+    color: #fff
+    top: 0
+    left: 0
+    padding: 5px 15px
+
+  .btn
+    width: 100%
+    margin-top: 10px

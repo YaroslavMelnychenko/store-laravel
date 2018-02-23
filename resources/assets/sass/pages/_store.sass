@@ -1,0 +1,51 @@
+.workshop-section,
+.feedback-section
+  background-color: #fff
+  color: $color-main
+  
+.about-us-section,
+.footer-section
+  background-color: $color-main
+  color: #fff
+
+.parallax
+  background-color: transparent
+  position: relative
+
+  &.top
+    +md-block
+      height: 480px
+      min-height: 480px
+    +xxs-block
+      height: 400px
+      min-height: 400px
+    height: 680px
+    min-height: 680px
+
+  &.bottom
+    +sm(display, none)
+    +md-block
+      min-height: 440px
+      height: 440px
+    min-height: 640px
+    height: 640px
+
+.workshop
+  +wrapper()
+
+.products
+  +col-padding()
+  +size-full(9)
+  +size-full-lg(9)
+  +size-full-md(9)
+  +size-full-sm(12)
+  +size-full-xs(12)
+  +size-full-xxs(12)
+
+.pagination
+  +col-padding()
+  +size-full(12)
+  padding: 30px
+  padding-bottom: 50px
+  justify-content: center
+  display: flex
