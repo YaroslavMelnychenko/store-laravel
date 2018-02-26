@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', 'StoreController@index');
-Route::get('/login', 'StoreController@showLoginForm');
-Route::get('/register', 'StoreController@showRegistrationForm');
+Route::get('/', 'StoreController@showProducts')->name('products');
+Route::get('/login', 'StoreController@showLoginForm')->name('user.login');
+Route::get('/register', 'StoreController@showRegistrationForm')->name('user.register');

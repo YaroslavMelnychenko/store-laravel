@@ -29,7 +29,9 @@
     </section>
     <section class="workshop-section">
         <div class="section-heading">магазин</div>
-        <div class="workshop">
+        <div id="vue-workshop-root" class="workshop"
+            @paginate="paginate"
+        >
             <div class="grid-row">
                 <div class="categories">
                     <div class="categories-heading">каталог</div>
@@ -46,13 +48,13 @@
                     </div>
                 </div>
                 <div class="products">
-                    <div id="vue-products-root" class="grid-row">
-                        <product name="Товар 1" meta="Знижка 5%" price="150" discount="100"></product>
-                        <product name="Товар 2" price="200"></product>
+                    <div class="grid-row">
                     </div>
                 </div>
-                <div id="vue-paginator-root" class="pagination">
-                    <paginator></paginator>
+                <div class="pagination">
+                    <paginator
+                        response="{{ json_encode($products) }}"
+                    ></paginator>
                 </div>
             </div>
         </div>
