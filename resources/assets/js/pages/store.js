@@ -1,8 +1,11 @@
 window.workshop = new Vue({
     el: '#vue-workshop-root',
+    data: {
+        products: ''
+    },
     methods: {
-        paginate: function (event) {
-            console.log(event);
+        render: function (data) {
+            this.products = data;
         }
     }
 });

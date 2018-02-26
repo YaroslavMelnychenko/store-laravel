@@ -1,15 +1,15 @@
 <template>
     <div class="product-column">
         <div class="product">
-            <div class="product-view">
-                <img :src="imageSrc" alt="product">
+            <div class="product-view" @click.stop.self="openProduct">
+                <img :src="imageSrc" alt="product" @click.stop.self="openProduct">
                 <div v-if="meta" class="product-meta">
                     {{ meta }}
                 </div>
             </div>
-            <div class="product-name">{{ name }}</div>
-            <div v-if="discount" class="product-price discount" :data-new="discountString">{{ priceString }}</div>
-            <div v-else="" class="product-price">{{ priceString }}</div>
+            <div class="product-name" @click.stop.self="openProduct">{{ name }}</div>
+            <div v-if="discount" class="product-price discount" :data-new="discountString" @click.stop.self="openProduct">{{ priceString }}</div>
+            <div v-else="" class="product-price" @click.stop.self="openProduct">{{ priceString }}</div>
             <div class="btn waves-effect" @click="addItem">Додати в кошик</div>
         </div>
     </div>
@@ -21,7 +21,8 @@
             'meta', 
             'price', 
             'discount',
-            'image'
+            'image',
+            'link'
         ],
         computed: {
             priceString: function () {
@@ -36,8 +37,11 @@
             }
         },
         methods: {
+            openProduct: function () {
+                location.href = this.link;
+            },
             addItem: function () {
-                console.log("test");
+                console.log('added to cart');
             }
         }
     }

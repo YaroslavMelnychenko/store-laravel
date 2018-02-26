@@ -7,16 +7,16 @@
     </div>
     <ul class="navbar-list">
         <li class="navbar-item active">
-            <a href="#" class="navbar-link">Головна</a>
+            <a href="#" data-target="#main-anchor" class="navbar-link js-link">Головна</a>
         </li>
         <li class="navbar-item">
-            <a href="#" class="navbar-link">Магазин</a>
+            <a href="#" data-target="#workshop-anchor" class="navbar-link js-link">Магазин</a>
         </li>
         <li class="navbar-item">
-            <a href="#" class="navbar-link">Про нас</a>
+            <a href="#" data-target="#about-us-anchor" class="navbar-link js-link">Про нас</a>
         </li>
         <li class="navbar-item">
-            <a href="#" class="navbar-link">Контакти</a>
+            <a href="#" data-target="#feedback-anchor" class="navbar-link js-link">Контакти</a>
         </li>
         <li class="navbar-item">
             <a href="#" class="navbar-link">

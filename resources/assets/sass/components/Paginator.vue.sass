@@ -5,6 +5,7 @@
 
   &-page
     +z-depth-half()
+    +xs(padding, 7px 10px)
     font-size: 20px
     color: $color-main
     border-top: 1px solid $color-main
@@ -14,7 +15,13 @@
     cursor: pointer
     transition: all .25s ease-in
 
-    &:hover
+    &.active
+      color: #fff
+      background-color: $color-main
+      opacity: .5
+      cursor: not-allowed
+
+    &:not(.active):hover
       color: #000
       background-color: ghostwhite
 
