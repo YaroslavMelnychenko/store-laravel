@@ -22,6 +22,10 @@ var path = {
     img: {
         origin: 'resources/assets/img/*.*',
         minified: 'public/assets/img/'
+    },
+    favs: {
+        origin: 'resources/assets/favs/*.*',
+        minified: 'public/assets/favs/'
     }
 }
 
@@ -55,6 +59,15 @@ gulp.task('minify:img', function () {
             interlaced: true
         }))
         .pipe(gulp.dest(path.img.minified));
+
+    gulp.src(path.favs.origin)
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()],
+            interlaced: true
+        }))
+        .pipe(gulp.dest(path.favs.minified));
 });
 
 gulp.task('watch', ['minify'], function () {

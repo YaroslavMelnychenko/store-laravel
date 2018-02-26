@@ -13,6 +13,9 @@
 body
   font-family: $font-helv-light
 
+button
+  font-family: $font-helv-light !important
+
 .content-wrapper
   max-width: 1500px
   margin: 0 auto
@@ -39,15 +42,27 @@ body
 .grid-column
   +col()
 
+.size-6
+  +col()
+  +size(6)
+
+.size-12
+  +col()
+  +size(12)
+
 // Import components
+@import "components/preloader"
 @import "components/navbar"
 @import "components/footer"
 @import "components/banner"
 @import "components/categories"
+@import "components/modal"
 
 // Import Vue components styles
 @import "components/Paginator.vue"
 @import "components/Product.vue"
+@import "components/Feedback.vue"
+@import "components/AuthModal.vue"
 
 // Import pages
 @import "pages/store"

@@ -24,7 +24,7 @@
             </a>
         </li>
         <li class="navbar-item">
-            <a href="#" class="navbar-link">
+            <a href="#authModal" class="navbar-link modal-trigger">
                 <i class="fas fa-user-circle navbar-icon navbar-auth"></i>Вхід
             </a>
         </li>
@@ -53,4 +53,5 @@
             </a>
         </li>
     </ul>
+    <button data-target="authModal" class="sidenav-button btn waves-effect modal-trigger">вхід</button>
 </div>

@@ -49,3 +49,50 @@
   padding-bottom: 50px
   justify-content: center
   display: flex
+
+.about-us
+  &-text
+    +md(padding, 0 15px)
+    text-align: center
+    font-size: 17px
+    line-height: 30px
+    padding: 0 15%
+
+  &-section
+    .grid-row
+      justify-content: center
+      padding:
+        top: 50px
+        bottom: 40px
+
+    .icon
+      +col()
+      +size(2)
+      +size-lg(2)
+      +size-md(2)
+      +size-sm(2)
+      +size-xs(6)
+      +size-xxs(6)
+      text-align: center
+      margin-bottom: 15px
+
+      i
+        font-size: 50px
+        +xs(font-size, 30px)
+
+      p
+        margin-top: 10px
+        font-size: 15px
+
+.feedback
+  padding-bottom: 50px
+
+  .contacts
+    text-align: center
+    letter-spacing: 2px
+    margin-bottom: 20px
+    font-size: 16px
+
+  .feedback-form
+    +md(padding, 0)
+    padding: 0 20%

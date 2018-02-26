@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'StoreController@index');
+Route::get('/login', 'StoreController@showLoginForm');
+Route::get('/register', 'StoreController@showRegistrationForm');
