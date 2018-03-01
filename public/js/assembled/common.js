@@ -1076,7 +1076,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(56);
+module.exports = __webpack_require__(59);
 
 
 /***/ }),
@@ -1102,9 +1102,9 @@ Vue.component('paginator', __webpack_require__(43));
 Vue.component('product', __webpack_require__(46));
 Vue.component('feedback', __webpack_require__(49));
 Vue.component('auth-modal', __webpack_require__(52));
-Vue.component('categorizer', __webpack_require__(71));
+Vue.component('categorizer', __webpack_require__(55));
 
-__webpack_require__(55);
+__webpack_require__(58);
 
 $(document).ready(function () {
     $('input[data-length], textarea[data-length]').characterCounter();
@@ -56495,58 +56495,14 @@ if (false) {
 
 /***/ }),
 /* 55 */
-/***/ (function(module, exports) {
-
-window.workshop = new Vue({
-    el: '#vue-workshop-root',
-    data: {
-        products: ''
-    },
-    methods: {
-        render: function render(data) {
-            this.products = data;
-        }
-    }
-});
-
-window.feedback = new Vue({
-    el: '#vue-feedback-root'
-});
-
-window.authModal = new Vue({
-    el: '#vue-auth-modal-root'
-});
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(73)
+var __vue_script__ = __webpack_require__(56)
 /* template */
-var __vue_template__ = __webpack_require__(72)
+var __vue_template__ = __webpack_require__(57)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56585,7 +56541,68 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 72 */
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['categories', 'active'],
+    data: function data() {
+        return {
+            categoriesArray: $.parseJSON(this.categories),
+            activeCategory: this.active
+        };
+    },
+    methods: {
+        isActive: function isActive(alias) {
+            if (this.activeCategory == alias) {
+                return 'active';
+            } else {
+                return '';
+            }
+        },
+        changeCategory: function changeCategory(alias) {
+            this.activeCategory = alias;
+            $('#preloader').removeClass('done');
+            if (alias == 'all') {
+                var url = '/products';
+            } else {
+                var url = '/products/category/' + alias;
+            }
+            history.pushState(null, null, url);
+            axios.get(url + '/vue').then(function (response) {
+                var last = window.workshop.$children.length - 1;
+                window.workshop.$children[0].$emit('renderproducts', response.data.data);
+                window.workshop.$children[1].productsArray = response.data;
+                $('#preloader').addClass('done');
+                sliderHack();
+                slideTo('#workshop-anchor');
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56648,65 +56665,34 @@ if (false) {
 }
 
 /***/ }),
-/* 73 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 58 */
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['categories', 'active'],
-    data: function data() {
-        return {
-            categoriesArray: $.parseJSON(this.categories),
-            activeCategory: this.active
-        };
+window.workshop = new Vue({
+    el: '#vue-workshop-root',
+    data: {
+        products: ''
     },
     methods: {
-        isActive: function isActive(alias) {
-            if (this.activeCategory == alias) {
-                return 'active';
-            } else {
-                return '';
-            }
-        },
-        changeCategory: function changeCategory(alias) {
-            this.activeCategory = alias;
-            $('#preloader').removeClass('done');
-            if (alias == 'all') {
-                var url = '/products';
-            } else {
-                var url = '/products/category/' + alias;
-            }
-            history.pushState(null, null, url);
-            axios.get(url + '/vue').then(function (response) {
-                var last = window.workshop.$children.length - 1;
-                window.workshop.$children[0].$emit('renderproducts', response.data.data);
-                window.workshop.$children[1].productsArray = response.data;
-                $('#preloader').addClass('done');
-                sliderHack();
-                slideTo('#workshop-anchor');
-            });
+        render: function render(data) {
+            this.products = data;
         }
     }
 });
+
+window.feedback = new Vue({
+    el: '#vue-feedback-root'
+});
+
+window.authModal = new Vue({
+    el: '#vue-auth-modal-root'
+});
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
