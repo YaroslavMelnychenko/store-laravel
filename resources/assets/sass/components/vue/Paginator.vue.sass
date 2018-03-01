@@ -1,0 +1,37 @@
+.paginator
+  justify-content: center
+  display: flex
+  flex-grow: 0
+
+  &-page
+    +z-depth-half()
+    +xs(padding, 7px 10px)
+    font-size: 20px
+    color: $color-main
+    border-top: 1px solid $color-main
+    border-bottom: 1px solid $color-main
+    border-right: 1px solid $color-main
+    padding: 7px 17px
+    cursor: pointer
+    transition: all .25s ease-in
+
+    &.active
+      color: #fff
+      background-color: $color-main
+      opacity: .5
+      cursor: not-allowed
+
+    &:not(.active):hover
+      color: #000
+      background-color: ghostwhite
+
+    &.disabled
+      opacity: .5
+      cursor: not-allowed
+
+      &:hover
+        color: $color-main
+        background-color: ghostwhite
+
+    &:first-child
+      border-left: 1px solid $color-main

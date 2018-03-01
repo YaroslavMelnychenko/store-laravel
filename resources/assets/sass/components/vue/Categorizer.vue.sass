@@ -1,0 +1,42 @@
+.categories
+  padding: 15px
+  border-right: 1px solid $color-main
+  +col-padding()
+  +size-full(3)
+  +size-full-lg(3)
+  +size-full-md(3)
+  +size-full-sm(12)
+  +size-full-xs(12)
+  +size-full-xxs(12)
+  +sm-block
+    margin-bottom: 10px
+    border-bottom: 1px solid $color-main
+    border-right: none
+
+  &-heading
+    border-bottom: 1px solid $color-main
+    text-transform: uppercase
+    text-align: center
+    font-size: 25px
+    padding-bottom: 15px
+    margin-bottom: 15px
+
+  &-tab
+    +sm-block
+      padding-bottom: 0
+      border-bottom: none
+    text-align: center
+    padding-bottom: 15px
+    border-bottom: 1px solid $color-main
+
+  &-category
+    display: block
+    cursor: pointer
+    padding: 10px
+    text-align: center
+    font-size: 16px
+
+    &.active
+      +z-depth-half()
+      background-color: $color-main
+      color: #fff

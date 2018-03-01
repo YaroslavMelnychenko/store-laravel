@@ -1,0 +1,71 @@
+// Import variables and mixins
+@import "variables"
+
+// Import frameworks and fonts
+@import "components/materialize/materialize"
+@import "components/smart-grid/smart-grid"
+@import "components/fonts/fonts"
+
+// Reset styles
++reset()
+
+// Basic common styles
+body
+  font-family: $font-helv-light
+
+a
+  color: $color-main
+
+button
+  font-family: $font-helv-light !important
+
+.content-wrapper
+  max-width: 1500px
+  margin: 0 auto
+
+.section-heading
+  text-transform: uppercase
+  text-align: center
+  height: 170px
+  padding:
+    top: 70px
+    bottom: 50px
+  font-size: 35px
+  letter-spacing: 5px
+
+.grid-wrapper
+  +wrapper()
+
+.grid-wrapper-full
+  +wrapper-full()
+
+.grid-row
+  +row-flex()
+
+.grid-column
+  +col()
+
+.size-6
+  +col()
+  +size(6)
+
+.size-12
+  +col()
+  +size(12)
+
+// Import components
+@import "components/preloader"
+@import "components/navbar"
+@import "components/footer"
+@import "components/banner"
+@import "components/modal"
+
+// Import Vue components styles
+@import "components/vue/Paginator.vue"
+@import "components/vue/Product.vue"
+@import "components/vue/Feedback.vue"
+@import "components/vue/AuthModal.vue"
+@import "components/vue/Categorizer.vue"
+
+// Import pages
+@import "pages/store"
