@@ -1123,6 +1123,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.csrfToken = token.content;
 } else {
     console.log('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
@@ -55587,7 +55588,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var currentUrl = window.location.pathname;
                 history.pushState(null, null, currentUrl + '?page=' + page);
                 $('#preloader').removeClass('done');
-                axios.get(currentUrl + '/vue?page=' + page).then(function (response) {
+                axios.get(currentUrl + '/vue?page=' + page + '&csrf_token=' + csrfToken).then(function (response) {
                     window.workshop.$children[1].productsArray = response.data;
                     window.workshop.$children[0].$emit('renderproducts', response.data.data);
                     $('#preloader').addClass('done');
@@ -56589,7 +56590,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var url = '/products/category/' + alias;
             }
             history.pushState(null, null, url);
-            axios.get(url + '/vue').then(function (response) {
+            axios.get(url + '/vue?csrf_token=' + csrfToken).then(function (response) {
                 var last = window.workshop.$children.length - 1;
                 window.workshop.$children[0].$emit('renderproducts', response.data.data);
                 window.workshop.$children[1].productsArray = response.data;

@@ -58,7 +58,7 @@ export default {
                 var currentUrl = window.location.pathname;
                 history.pushState(null, null, currentUrl + '?page=' + page);
                 $('#preloader').removeClass('done');
-                axios.get(currentUrl + '/vue?page=' + page).then(function (response) {
+                axios.get(currentUrl + '/vue?page=' + page + '&csrf_token=' + csrfToken).then(function (response) {
                     window.workshop.$children[1].productsArray = response.data;
                     window.workshop.$children[0].$emit('renderproducts', response.data.data);
                     $('#preloader').addClass('done');

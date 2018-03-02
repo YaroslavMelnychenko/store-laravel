@@ -41,7 +41,7 @@
                     var url = '/products/category/' + alias;
                 }
                 history.pushState(null, null, url);
-                axios.get(url + '/vue').then(function (response) {
+                axios.get(url + '/vue?csrf_token=' + csrfToken).then(function (response) {
                     var last = window.workshop.$children.length - 1;
                     window.workshop.$children[0].$emit('renderproducts', response.data.data);
                     window.workshop.$children[1].productsArray = response.data;

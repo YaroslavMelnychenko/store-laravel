@@ -27,5 +27,8 @@
         "popper.js": "^1.12",
         "smart-grid": "^2.0.1",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "npm": "^5.7.1"
     }
 }
