@@ -1092,6 +1092,14 @@ window.slideTo = function (id) {
     $('body,html').scrollTop($(id).offset().top);
 };
 
+window.checkElement = function (selector) {
+    if (document.querySelector(selector)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 __webpack_require__(12);
 __webpack_require__(39);
 __webpack_require__(40);
@@ -1103,8 +1111,10 @@ Vue.component('product', __webpack_require__(46));
 Vue.component('feedback', __webpack_require__(49));
 Vue.component('auth-modal', __webpack_require__(52));
 Vue.component('categorizer', __webpack_require__(55));
+Vue.component('admin-login', __webpack_require__(74));
 
 __webpack_require__(58);
+__webpack_require__(76);
 
 $(document).ready(function () {
     $('input[data-length], textarea[data-length]').characterCounter();
@@ -56230,6 +56240,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['activated'],
@@ -56399,6 +56412,10 @@ var staticRenderFns = [
             { staticClass: "btn waves-effect", attrs: { type: "submit" } },
             [_vm._v("Увійти")]
           )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "grid-row forgot-password" }, [
+          _c("a", { attrs: { href: "#" } }, [_vm._v("Забули пароль?")])
         ])
       ])
     ])
@@ -56669,31 +56686,197 @@ if (false) {
 /* 58 */
 /***/ (function(module, exports) {
 
-window.workshop = new Vue({
-    el: '#vue-workshop-root',
-    data: {
-        products: ''
-    },
-    methods: {
-        render: function render(data) {
-            this.products = data;
+if (checkElement('#vue-workshop-root')) {
+    window.workshop = new Vue({
+        el: '#vue-workshop-root',
+        data: {
+            products: ''
+        },
+        methods: {
+            render: function render(data) {
+                this.products = data;
+            }
         }
-    }
-});
+    });
+}
 
-window.feedback = new Vue({
-    el: '#vue-feedback-root'
-});
+if (checkElement('#vue-feedback-root')) {
+    window.feedback = new Vue({
+        el: '#vue-feedback-root'
+    });
+}
 
-window.authModal = new Vue({
-    el: '#vue-auth-modal-root'
-});
+if (checkElement('#vue-auth-modal-root')) {
+    window.authModal = new Vue({
+        el: '#vue-auth-modal-root'
+    });
+}
 
 /***/ }),
 /* 59 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = __webpack_require__(75)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\vue\\AdminLogin.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fde516b2", Component.options)
+  } else {
+    hotAPI.reload("data-v-fde516b2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "admin-login" }, [
+      _c("form", { attrs: { id: "adminLogin" } }, [
+        _c("div", { staticClass: "grid-wrapper" }, [
+          _c("div", { staticClass: "grid-row" }, [
+            _c("div", { staticClass: "input-field first size-12" }, [
+              _c("input", {
+                attrs: {
+                  id: "admin-login-email",
+                  name: "email",
+                  type: "email",
+                  placeholder: ""
+                }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "admin-login-email" } }, [
+                _vm._v("E-mail")
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "grid-row" }, [
+            _c("div", { staticClass: "input-field size-12" }, [
+              _c("input", {
+                attrs: {
+                  id: "admin-login-password",
+                  name: "password",
+                  type: "password",
+                  placeholder: ""
+                }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "admin-login-password" } }, [
+                _vm._v("Пароль")
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("label", [
+            _c("input", {
+              attrs: {
+                id: "admin-login-remember",
+                name: "remember",
+                type: "checkbox"
+              }
+            }),
+            _vm._v(" "),
+            _c("span", [_vm._v("Запам'ятати мене")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "grid-row button" }, [
+            _c(
+              "button",
+              { staticClass: "btn waves-effect", attrs: { type: "submit" } },
+              [_vm._v("Увійти")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "grid-row forgot-password" }, [
+            _c("a", { attrs: { href: "#" } }, [_vm._v("Забули пароль?")])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-fde516b2", module.exports)
+  }
+}
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports) {
+
+if (checkElement('#admin-login-root')) {
+    window.adminLogin = new Vue({
+        el: '#admin-login-root'
+    });
+}
 
 /***/ })
 /******/ ]);

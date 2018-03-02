@@ -24,3 +24,11 @@ Route::get('/products/category/{category}/vue', 'ProductController@getProductsBy
 
 Route::get('/login', 'LoginController@showLoginForm')->name('login.show');
 Route::get('/register', 'RegisterController@showRegisterForm')->name('register.show');
+
+
+
+Route::get('/admin/login', function (){
+    return view('admin.login', [
+        'name' => 'Вхід в адмінпанель'
+    ]);
+});

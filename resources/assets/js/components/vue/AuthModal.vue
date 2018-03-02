@@ -29,6 +29,9 @@
                         <div class="grid-row button">
                             <button type="submit" class="btn waves-effect">Увійти</button>
                         </div>
+                        <div class="grid-row forgot-password">
+                            <a href="#">Забули пароль?</a>
+                        </div>
                     </div>
                 </form>
             </div>

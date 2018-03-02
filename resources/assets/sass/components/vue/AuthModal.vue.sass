@@ -25,4 +25,19 @@
   button
     display: block
     width: 100%
+    +xs(margin, 15px auto)
     margin: 15px auto 30px auto
+
+  .forgot-password
+    cursor: pointer
+    text-align: center
+    margin-bottom: 15px
+    +xs(margin-top, 0)
+    margin-top: -15px
+
+    a
+      width: 100%
+      cursor: pointer
+
+      &:hover
+        text-decoration: underline

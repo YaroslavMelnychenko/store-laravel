@@ -10496,6 +10496,34 @@ button {
   margin: 15px auto 30px auto;
 }
 
+@media screen and (max-width: 575px) {
+  #authModal button {
+    margin: 15px auto;
+  }
+}
+
+#authModal .forgot-password {
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: -15px;
+}
+
+@media screen and (max-width: 575px) {
+  #authModal .forgot-password {
+    margin-top: 0;
+  }
+}
+
+#authModal .forgot-password a {
+  width: 100%;
+  cursor: pointer;
+}
+
+#authModal .forgot-password a:hover {
+  text-decoration: underline;
+}
+
 .categories {
   padding: 15px;
   border-right: 1px solid #B5A87B;
@@ -10578,6 +10606,117 @@ button {
           box-shadow: 0 1.3px 1.3px 0 rgba(0, 0, 0, 0.14), 0 0.66px 3.33px 0 rgba(0, 0, 0, 0.12), 0 2px 0.66px -1.33px rgba(0, 0, 0, 0.2);
   background-color: #B5A87B;
   color: #fff;
+}
+
+.admin-login {
+  width: 50vmin;
+  background: inherit;
+  position: absolute;
+  overflow: hidden;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (max-width: 1200px) {
+  .admin-login {
+    width: 40vmin;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .admin-login {
+    width: 40vmin;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .admin-login {
+    width: 70vmin;
+  }
+}
+
+@media screen and (max-width: 325px) {
+  .admin-login {
+    width: 90vmin;
+  }
+}
+
+.admin-login::before {
+  content: '';
+  width: calc(100% + 50px);
+  height: calc(100% + 50px);
+  background: inherit;
+  position: absolute;
+  left: -25px;
+  top: -25px;
+  -webkit-box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.3);
+          box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.3);
+  -webkit-filter: blur(10px);
+          filter: blur(10px);
+}
+
+.admin-login input,
+.admin-login label {
+  color: #fff !important;
+}
+
+.admin-login input {
+  border-bottom-color: #fff !important;
+}
+
+.admin-login [type="checkbox"] + span:not(.lever):before,
+.admin-login [type="checkbox"]:not(.filled-in) + span:not(.lever):after {
+  border-color: #fff !important;
+}
+
+.admin-login [type="checkbox"]:checked + span:not(.lever):before {
+  border-color: transparent !important;
+  border-right-color: #fff !important;
+  border-bottom-color: #fff !important;
+}
+
+.admin-login .btn:focus,
+.admin-login .btn-large:focus,
+.admin-login .btn-small:focus,
+.admin-login .btn-large:focus,
+.admin-login .btn-small:focus,
+.admin-login .btn-floating:focus,
+.admin-login .btn:hover,
+.admin-login .btn-large:hover,
+.admin-login .btn-small:hover,
+.admin-login .btn-large:hover,
+.admin-login .btn-small:hover,
+.admin-login button {
+  background-color: #dd1a4d !important;
+  width: calc(100% - 30px);
+  margin: 15px auto;
+  display: block;
+}
+
+.admin-login .first {
+  margin-top: 30px;
+}
+
+.admin-login .forgot-password {
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.admin-login .forgot-password a {
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  z-index: 1000;
+  color: #fff;
+}
+
+.admin-login .forgot-password a:hover {
+  text-decoration: underline;
 }
 
 .workshop-section,
@@ -10789,5 +10928,12 @@ button {
   .feedback .feedback-form {
     padding: 0;
   }
+}
+
+.body-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(/assets/img/admin-bg.jpg);
+  background-size: cover;
 }
 

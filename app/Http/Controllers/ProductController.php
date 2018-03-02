@@ -47,7 +47,7 @@ class ProductController extends Controller
     public function showProduct($productAlias) {
         $product = Product::where('alias', $productAlias)->first();
         if(!is_null($product)){
-            dd($product);
+            return $product;
         } else {
             return redirect('/products');
         }
