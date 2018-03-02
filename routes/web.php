@@ -22,13 +22,13 @@ Route::get('/product/{product}', 'ProductController@showProduct')->name('product
 Route::get('/products/vue', 'ProductController@getProducts')->name('products.show.vue')->middleware('verify.vue');
 Route::get('/products/category/{category}/vue', 'ProductController@getProductsByCategory')->name('products.category.vue')->middleware('verify.vue');;
 
-Route::get('/login', 'LoginController@showLoginForm')->name('login.show');
-Route::get('/register', 'RegisterController@showRegisterForm')->name('register.show');
+Auth::routes();
 
+Route::get('/profile', 'ProfileController@show')->name('profile');
 
-
-Route::get('/admin/login', function (){
-    return view('admin.login', [
-        'name' => 'Вхід в адмінпанель'
-    ]);
+Route::prefix('admin')->group(function (){
+    Route::get('/', 'AdminController@show')->name('admin');
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.post');
 });
+
