@@ -24,6 +24,12 @@ if(checkElement('#vue-auth-modal-root')){
     });
 }
 
+if(checkElement('#vue-notifications-root')){
+    window.notifications = new Vue({
+        el: '#vue-notifications-root'
+    });
+}
+
 
 
 

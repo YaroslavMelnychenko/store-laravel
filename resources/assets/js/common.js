@@ -22,6 +22,7 @@ require('./components/materialize/materialize');
 require('./components/parallax/parallax');
 require('./components/navbar');
 require('./components/preloader');
+require('./components/notify');
 
 Vue.component('paginator', require('./components/vue/Paginator.vue'));
 Vue.component('product', require('./components/vue/Product.vue'));
@@ -29,6 +30,7 @@ Vue.component('feedback', require('./components/vue/Feedback.vue'));
 Vue.component('auth-modal', require('./components/vue/AuthModal.vue'));
 Vue.component('categorizer', require('./components/vue/Categorizer.vue'));
 Vue.component('admin-login', require('./components/vue/AdminLogin.vue'));
+Vue.component('notification', require('./components/vue/Notification.vue'));
 
 require('./pages/store');
 require('./pages/admin');

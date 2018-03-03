@@ -9687,6 +9687,26 @@ button {
   width: calc(100% - 30px);
 }
 
+.notifies {
+  position: fixed;
+  top: 90px;
+  right: 0;
+  z-index: 2000;
+  padding: 10px;
+  width: auto;
+  height: auto;
+  -webkit-transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.notifies.top {
+  top: 0 !important;
+}
+
+.notifies.top-mobile {
+  top: 50px;
+}
+
 #preloader {
   position: fixed;
   left: 0;
@@ -10717,6 +10737,68 @@ button {
 
 .admin-login .forgot-password a:hover {
   text-decoration: underline;
+}
+
+.alert {
+  -webkit-box-shadow: 0 1.3px 1.3px 0 rgba(0, 0, 0, 0.14), 0 0.66px 3.33px 0 rgba(0, 0, 0, 0.12), 0 2px 0.66px -1.33px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1.3px 1.3px 0 rgba(0, 0, 0, 0.14), 0 0.66px 3.33px 0 rgba(0, 0, 0, 0.12), 0 2px 0.66px -1.33px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin-bottom: 15px;
+  padding: 15px 20px;
+  border: 1px solid transparent;
+  -webkit-transition: all 0.5s cubic-bezier(1, 0.7, 0.05, 1.56);
+  transition: all 0.5s cubic-bezier(1, 0.7, 0.05, 1.56);
+  -webkit-transform: translateX(150%) scaleX(0);
+          transform: translateX(150%) scaleX(0);
+}
+
+.alert.shown {
+  -webkit-transform: translateX(0) scaleX(1);
+          transform: translateX(0) scaleX(1);
+}
+
+.alert-heading {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-family: "HelveticaRegular";
+}
+
+.alert-close {
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  opacity: .3;
+  -webkit-transition: opacity .25s ease-in;
+  transition: opacity .25s ease-in;
+}
+
+.alert-close:hover {
+  opacity: .75;
+}
+
+.alert.info {
+  border-color: #bee5eb;
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.alert.success {
+  border-color: #c3e6cb;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert.warning {
+  border-color: #ffeeba;
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.alert.danger {
+  border-color: f5c6cb;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 .workshop-section,

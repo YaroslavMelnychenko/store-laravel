@@ -110,5 +110,12 @@
             @endif
         ></auth-modal>
     </div>
+    <div id="vue-notifications-root" class="notifies">
+        <notification
+                type="success"
+                heading="Heading"
+                message="This is success message"
+        ></notification>
+    </div>
     @include('components.footer')
 @endsection
