@@ -4,14 +4,10 @@
   margin-bottom: 15px
   padding: 15px 20px
   border: 1px solid transparent
-  transition: all .5s cubic-bezier(1,.7,.05,1.56)
-  transform: translateX(150%) scaleX(0)
-
-  &.shown
-    transform: translateX(0) scaleX(1)
 
   &-heading
     margin-bottom: 10px
+    margin-right: 20px
     font-size: 18px
     font-family: $font-helv-regular
 
@@ -45,3 +41,10 @@
     border-color: $color-danger-border
     background-color: $color-danger-bg
     color: $color-danger
+
+.notify-enter-active, .notify-leave-active
+  transition: all .5s cubic-bezier(1,.7,.05,1.56)
+
+.notify-enter, .notify-leave-to
+  transform: translateX(150%) scaleX(0)
+

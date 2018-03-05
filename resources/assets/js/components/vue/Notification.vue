@@ -1,7 +1,7 @@
 <template>
     <div :class="['alert', type, isShown]">
         <div class="alert-close"
-            @click="closeNotification"
+            @click="hide"
         >
             <i class="fas fa-times"></i>
         </div>
@@ -16,18 +16,19 @@
 
 <script>
     export default {
-        props: ['type', 'heading', 'message'],
+        props: ['type', 'heading', 'message', 'index'],
         data: function () {
             return {
                 isShown: ''
             }
         },
         mounted: function () {
-            this.isShown = 'shown'
+            console.log('added notification with index ' + this.index);
         },
         methods: {
-            closeNotification: function () {
-                console.log('destroy');
+            hide: function () {
+                this.$emit('hide', this.index);
+                console.log('closed notification with index ' + this.index);
             }
         }
     }

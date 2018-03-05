@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -49,9 +51,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:40',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:5|max:40',
         ]);
     }
 
@@ -75,5 +77,26 @@ class RegisterController extends Controller
         return view('store', [
             'register' => true
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if(!is_null($user)){
+            return response('user already exists');
+        }
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        $user = User::where('email', $request->email)->first();
+        if(!is_null($user)){
+            return response('registered');
+        } else {
+            return response('internal server error', 500);
+        }
     }
 }

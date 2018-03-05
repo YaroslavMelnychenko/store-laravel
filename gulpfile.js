@@ -7,6 +7,8 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
     gcmq = require('gulp-group-css-media-queries'),
+    gutil = require('gulp-util'),
+    vftp = require('vinyl-ftp'),
     smartgrid = require('smart-grid');
 
 var path = {
@@ -78,4 +80,37 @@ gulp.task('watch', ['minify'], function () {
     gulp.watch(path.js.assembled, ['minify:js']);
     gulp.watch(path.css.assembled, ['minify:css']);
     gulp.watch(path.img.assembled, ['minify:img']);
+});
+
+gulp.task('deploy', function () {
+    var conn = vftp.create({
+        host: 'zzz.com.ua',
+        user: 'deploy@chayka-workshop.zzz.com.ua',
+        password: 'Taekvondo98!',
+        parallel: 10,
+        log: gutil.log
+    });
+
+    var globs = [
+        'app/**',
+        'bootstrap/**',
+        'config/**',
+        'database/**',
+        'public/**',
+        'resources/**',
+        'routes/**',
+        'storage/**',
+        'tests/**',
+        'vendor/**',
+        '.env.example',
+        '.htaccess',
+        'artisan.php',
+        'phpunit.xml',
+        'server.php'
+    ];
+
+    gulp.src(globs, {
+        base: '.',
+        buffer: false
+    }).pipe(conn.newer('/'));
 });

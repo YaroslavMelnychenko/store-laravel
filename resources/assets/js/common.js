@@ -17,6 +17,28 @@ window.checkElement = function (selector) {
     }
 };
 
+window.checkLength = function (val, max, min) {
+    min = min || 1;
+    if(val.length >= min && val.length <= max){
+        return true;
+    } else {
+        return false;
+    }
+};
+
+window.preloader = {
+    on: function () {
+        $('#preloader').removeClass('done');
+    },
+    off: function () {
+        $('#preloader').addClass('done');
+    }
+};
+
+window.emailRegExp = new RegExp(/^(([0-9a-zA-Z_]{1}[-0-9a-zA-Z_\.]{1,44}[0-9a-zA-Z_]{1})@([-0-9a-zA-Z]{1,10}\.){1,2}[-a-zA-Z]{2,6})$/);
+window.nameRegExp = new RegExp(/^[`'a-zA-Zа-яА-ЯіІїЇєЄёЁ\s]{1,}$/u);
+window.passwordRegExp = new RegExp(/^[a-zA-Z0-9-_\.]{1,}$/);
+
 require('./bootstrap');
 require('./components/materialize/materialize');
 require('./components/parallax/parallax');

@@ -26,7 +26,32 @@ if(checkElement('#vue-auth-modal-root')){
 
 if(checkElement('#vue-notifications-root')){
     window.notifications = new Vue({
-        el: '#vue-notifications-root'
+        el: '#vue-notifications-root',
+        data: {
+            notifications: [],
+            index: 0
+        },
+        methods: {
+            add: function (notification) {
+                this.notifications.push({
+                    index: this.index,
+                    heading: notification.heading,
+                    message: notification.message,
+                    type: notification.type
+                });
+                this.index++;
+            },
+            removeAll: function () {
+                this.notifications = [];
+            },
+            hide: function (index) {
+                for(var i = 0; i < this.notifications.length; i++) {
+                    if(this.notifications[i].index == index) {
+                        this.notifications.splice(i, 1);
+                    }
+                }
+            }
+        }
     });
 }
 

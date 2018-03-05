@@ -32,3 +32,4 @@ Route::prefix('admin')->group(function (){
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.post');
 });
 
+Route::post('/feedback', 'FeedbackController@sendFeedback')->name('feedback');

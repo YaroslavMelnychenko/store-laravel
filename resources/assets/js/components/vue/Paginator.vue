@@ -55,16 +55,23 @@ export default {
     methods: {
         paginate: function (page) {
             if (page != this.currentPage && page <= this.lastPage && page != 0) {
-                var currentUrl = window.location.pathname;
-                history.pushState(null, null, currentUrl + '?page=' + page);
-                $('#preloader').removeClass('done');
-                axios.get(currentUrl + '/vue?page=' + page + '&csrf_token=' + csrfToken).then(function (response) {
-                    window.workshop.$children[1].productsArray = response.data;
-                    window.workshop.$children[0].$emit('renderproducts', response.data.data);
-                    $('#preloader').addClass('done');
+                var url = window.location.pathname;
+                var $this = this;
+                $.ajax({
+                    method: 'get',
+                    url: url + '/vue?page=' + page + '&csrf_token=' + csrfToken,
+                    beforeSend: function () {
+                        history.pushState(null, null, url + '?page=' + page);
+                        preloader.on();
+                    },
+                    success: function (response) {
+                        $this.productsArray = response;
+                        $this.$emit('renderproducts', response.data);
+                        sliderHack();
+                        slideTo('#workshop-anchor');
+                        preloader.off();
+                    }
                 });
-                sliderHack();
-                slideTo('#workshop-anchor');
             }
         }
     }

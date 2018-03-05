@@ -1076,7 +1076,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(64);
+module.exports = __webpack_require__(66);
 
 
 /***/ }),
@@ -1100,23 +1100,45 @@ window.checkElement = function (selector) {
     }
 };
 
+window.checkLength = function (val, max, min) {
+    min = min || 1;
+    if (val.length >= min && val.length <= max) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+window.preloader = {
+    on: function on() {
+        $('#preloader').removeClass('done');
+    },
+    off: function off() {
+        $('#preloader').addClass('done');
+    }
+};
+
+window.emailRegExp = new RegExp(/^(([0-9a-zA-Z_]{1}[-0-9a-zA-Z_\.]{1,44}[0-9a-zA-Z_]{1})@([-0-9a-zA-Z]{1,10}\.){1,2}[-a-zA-Z]{2,6})$/);
+window.nameRegExp = new RegExp(/^[\t-\r 'A-Z`-z\xA0\u0401\u0404\u0406\u0407\u0410-\u044F\u0451\u0454\u0456\u0457\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]+$/);
+window.passwordRegExp = new RegExp(/^[a-zA-Z0-9-_\.]{1,}$/);
+
 __webpack_require__(12);
 __webpack_require__(39);
 __webpack_require__(40);
 __webpack_require__(41);
 __webpack_require__(42);
-__webpack_require__(79);
+__webpack_require__(43);
 
-Vue.component('paginator', __webpack_require__(43));
-Vue.component('product', __webpack_require__(46));
-Vue.component('feedback', __webpack_require__(49));
-Vue.component('auth-modal', __webpack_require__(52));
-Vue.component('categorizer', __webpack_require__(55));
-Vue.component('admin-login', __webpack_require__(58));
-Vue.component('notification', __webpack_require__(60));
+Vue.component('paginator', __webpack_require__(44));
+Vue.component('product', __webpack_require__(47));
+Vue.component('feedback', __webpack_require__(50));
+Vue.component('auth-modal', __webpack_require__(53));
+Vue.component('categorizer', __webpack_require__(56));
+Vue.component('admin-login', __webpack_require__(59));
+Vue.component('notification', __webpack_require__(61));
 
-__webpack_require__(62);
-__webpack_require__(63);
+__webpack_require__(64);
+__webpack_require__(65);
 
 $(document).ready(function () {
     $('input[data-length], textarea[data-length]').characterCounter();
@@ -1144,6 +1166,12 @@ if (token) {
 
 window.Vue = __webpack_require__(35);
 window.$ = window.jQuery = __webpack_require__(38);
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 
 /***/ }),
 /* 13 */
@@ -55474,6 +55502,18 @@ $(document).ready(function () {
         e.preventDefault();
         $('.sidenav').sidenav('close');
     });
+    $('.profile-button').click(function () {
+        location.href = '/profile';
+    });
+    $('.logout-button').click(function () {
+        $.ajax({
+            method: 'post',
+            url: '/logout',
+            success: function success() {
+                location.href = '/products';
+            }
+        });
+    });
 });
 
 /***/ }),
@@ -55489,14 +55529,34 @@ window.onload = function () {
 
 /***/ }),
 /* 43 */
+/***/ (function(module, exports) {
+
+function ct() {
+    var width = $(window).width();
+    if (width < 992) {
+        $('.notifies').addClass('top-mobile');
+    } else {
+        $('.notifies').removeClass('top-mobile');
+    }
+
+    var top = $(this).scrollTop();
+    if (top > 100) $('.notifies').addClass('top');else $('.notifies').removeClass('top');
+}
+
+$(window).scroll(ct);
+$(document).ready(ct);
+$(window).resize(ct);
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(44)
+var __vue_script__ = __webpack_require__(45)
 /* template */
-var __vue_template__ = __webpack_require__(45)
+var __vue_template__ = __webpack_require__(46)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55535,7 +55595,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55597,23 +55657,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         paginate: function paginate(page) {
             if (page != this.currentPage && page <= this.lastPage && page != 0) {
-                var currentUrl = window.location.pathname;
-                history.pushState(null, null, currentUrl + '?page=' + page);
-                $('#preloader').removeClass('done');
-                axios.get(currentUrl + '/vue?page=' + page + '&csrf_token=' + csrfToken).then(function (response) {
-                    window.workshop.$children[1].productsArray = response.data;
-                    window.workshop.$children[0].$emit('renderproducts', response.data.data);
-                    $('#preloader').addClass('done');
+                var url = window.location.pathname;
+                var $this = this;
+                $.ajax({
+                    method: 'get',
+                    url: url + '/vue?page=' + page + '&csrf_token=' + csrfToken,
+                    beforeSend: function beforeSend() {
+                        history.pushState(null, null, url + '?page=' + page);
+                        preloader.on();
+                    },
+                    success: function success(response) {
+                        $this.productsArray = response;
+                        $this.$emit('renderproducts', response.data);
+                        sliderHack();
+                        slideTo('#workshop-anchor');
+                        preloader.off();
+                    }
                 });
-                sliderHack();
-                slideTo('#workshop-anchor');
             }
         }
     }
 });
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55679,15 +55746,15 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(47)
+var __vue_script__ = __webpack_require__(48)
 /* template */
-var __vue_template__ = __webpack_require__(48)
+var __vue_template__ = __webpack_require__(49)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55726,7 +55793,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55773,7 +55840,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55891,15 +55958,15 @@ if (false) {
 }
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(50)
+var __vue_script__ = __webpack_require__(51)
 /* template */
-var __vue_template__ = __webpack_require__(51)
+var __vue_template__ = __webpack_require__(52)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55938,11 +56005,27 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -55981,15 +56064,115 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['url'],
+    data: function data() {
+        return {
+            nameValue: '',
+            themeValue: '',
+            emailValue: '',
+            textValue: '',
+            name: {
+                regExp: nameRegExp,
+                valid: '',
+                maxLength: 40
+            },
+            theme: {
+                regExp: nameRegExp,
+                valid: '',
+                maxLength: 40
+            },
+            email: {
+                regExp: emailRegExp,
+                valid: ''
+            },
+            text: {
+                valid: '',
+                maxLength: 500
+            }
+        };
+    },
     methods: {
+        validate: function validate() {
+            if (this.name.valid == 'valid' && this.theme.valid == 'valid' && this.email.valid == 'valid' && this.text.valid == 'valid') {
+                return true;
+            } else {
+                if (this.name.valid != 'valid') this.name.valid = 'invalid';
+                if (this.theme.valid != 'valid') this.theme.valid = 'invalid';
+                if (this.email.valid != 'valid') this.email.valid = 'invalid';
+                if (this.text.valid != 'valid') this.text.valid = 'invalid';
+                return false;
+            }
+        },
         submit: function submit() {
-            console.log('submit');
+            if (this.validate()) {
+                $.ajax({
+                    method: 'post',
+                    url: this.url,
+                    data: {
+                        name: this.nameValue,
+                        theme: this.themeValue,
+                        email: this.emailValue,
+                        text: this.textValue
+                    },
+                    beforeSend: function beforeSend() {
+                        preloader.on();
+                    },
+                    success: function success(response) {
+                        preloader.off();
+                        console.log(response);
+                    },
+                    error: function error() {
+                        preloader.off();
+                        notifications.add({
+                            type: 'danger',
+                            heading: 'Помилка',
+                            message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                        });
+                    }
+                });
+            } else {
+                console.log('errors');
+                notifications.add({
+                    type: 'danger',
+                    heading: 'Помилка',
+                    message: 'Вам необхідно заповнити всі поля вірно'
+                });
+            }
+        }
+    },
+    watch: {
+        nameValue: function nameValue(val) {
+            if (this.name.regExp.test(val) && checkLength(val, this.name.maxLength)) {
+                this.name.valid = 'valid';
+            } else {
+                this.name.valid = 'invalid';
+            }
+        },
+        themeValue: function themeValue(val) {
+            if (this.theme.regExp.test(val) && checkLength(val, this.theme.maxLength)) {
+                this.theme.valid = 'valid';
+            } else {
+                this.theme.valid = 'invalid';
+            }
+        },
+        emailValue: function emailValue(val) {
+            if (this.email.regExp.test(val)) {
+                this.email.valid = 'valid';
+            } else {
+                this.email.valid = 'invalid';
+            }
+        },
+        textValue: function textValue(val) {
+            if (checkLength(val, this.text.maxLength)) {
+                this.text.valid = 'valid';
+            } else {
+                this.text.valid = 'invalid';
+            }
         }
     }
 });
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56008,90 +56191,160 @@ var render = function() {
       }
     },
     [
-      _vm._m(0),
+      _c("div", { staticClass: "grid-row" }, [
+        _c("div", { staticClass: "input-field size-6-12" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.lazy",
+                value: _vm.nameValue,
+                expression: "nameValue",
+                modifiers: { lazy: true }
+              }
+            ],
+            class: _vm.name.valid,
+            attrs: {
+              id: "feedback-name",
+              name: "name",
+              type: "text",
+              "data-length": _vm.name.maxLength
+            },
+            domProps: { value: _vm.nameValue },
+            on: {
+              change: function($event) {
+                _vm.nameValue = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "feedback-name" } }, [_vm._v("Ім'я")]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "helper-text",
+              attrs: { "data-error": "недопустима довжина або символи" }
+            },
+            [_vm._v("можливі лише літери")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-field size-6-12" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.lazy",
+                value: _vm.themeValue,
+                expression: "themeValue",
+                modifiers: { lazy: true }
+              }
+            ],
+            class: _vm.theme.valid,
+            attrs: {
+              id: "feedback-theme",
+              name: "theme",
+              type: "text",
+              "data-length": _vm.theme.maxLength
+            },
+            domProps: { value: _vm.themeValue },
+            on: {
+              change: function($event) {
+                _vm.themeValue = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "feedback-theme" } }, [_vm._v("Тема")]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "helper-text",
+              attrs: { "data-error": "недопустима довжина або символи" }
+            },
+            [_vm._v("можливі лише літери")]
+          )
+        ])
+      ]),
       _vm._v(" "),
-      _vm._m(1),
+      _c("div", { staticClass: "grid-row" }, [
+        _c("div", { staticClass: "input-field size-12" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.lazy",
+                value: _vm.emailValue,
+                expression: "emailValue",
+                modifiers: { lazy: true }
+              }
+            ],
+            class: _vm.email.valid,
+            attrs: { id: "feedback-email", name: "email", type: "email" },
+            domProps: { value: _vm.emailValue },
+            on: {
+              change: function($event) {
+                _vm.emailValue = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "feedback-email" } }, [_vm._v("E-mail")]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "helper-text",
+              attrs: { "data-error": "недопустима адреса" }
+            },
+            [_vm._v("ваша діюча електронна адреса")]
+          )
+        ])
+      ]),
       _vm._v(" "),
-      _vm._m(2),
+      _c("div", { staticClass: "grid-row" }, [
+        _c("div", { staticClass: "input-field size-12" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.lazy",
+                value: _vm.textValue,
+                expression: "textValue",
+                modifiers: { lazy: true }
+              }
+            ],
+            staticClass: "materialize-textarea",
+            class: _vm.text.valid,
+            attrs: {
+              id: "feedback-text",
+              name: "text",
+              "data-length": _vm.text.maxLength
+            },
+            domProps: { value: _vm.textValue },
+            on: {
+              change: function($event) {
+                _vm.textValue = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "feedback-text" } }, [_vm._v("Текст")]),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "helper-text",
+            attrs: { "data-error": "недопустима довжина" }
+          })
+        ])
+      ]),
       _vm._v(" "),
-      _vm._m(3)
+      _vm._m(0)
     ]
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "grid-row" }, [
-      _c("div", { staticClass: "input-field size-6" }, [
-        _c("input", {
-          attrs: {
-            id: "feedback-name",
-            name: "name",
-            type: "text",
-            "data-length": "30"
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "feedback-name" } }, [_vm._v("Ім'я")]),
-        _vm._v(" "),
-        _c("span", { staticClass: "helper-text" }, [
-          _vm._v("можливі лише літери")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-field size-6" }, [
-        _c("input", {
-          attrs: {
-            id: "feedback-theme",
-            name: "theme",
-            type: "text",
-            "data-length": "30"
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "feedback-theme" } }, [_vm._v("Тема")]),
-        _vm._v(" "),
-        _c("span", { staticClass: "helper-text" }, [
-          _vm._v("можливі лише літери")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "grid-row" }, [
-      _c("div", { staticClass: "input-field size-12" }, [
-        _c("input", {
-          attrs: { id: "feedback-email", name: "email", type: "email" }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "feedback-email" } }, [_vm._v("E-mail")]),
-        _vm._v(" "),
-        _c("span", { staticClass: "helper-text" }, [
-          _vm._v("ваша діюча електронна адреса")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "grid-row" }, [
-      _c("div", { staticClass: "input-field size-12" }, [
-        _c("textarea", {
-          staticClass: "materialize-textarea",
-          attrs: { id: "feedback-text", name: "text", "data-length": "500" }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "feedback-text" } }, [_vm._v("Текст")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -56117,15 +56370,15 @@ if (false) {
 }
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(53)
+var __vue_script__ = __webpack_require__(54)
 /* template */
-var __vue_template__ = __webpack_require__(54)
+var __vue_template__ = __webpack_require__(55)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56164,7 +56417,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56245,9 +56498,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['activated'],
+    props: ['activated', 'urlsignup', 'urlsignin'],
     data: function data() {
         return {
             tabs: {
@@ -56257,6 +56533,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             forms: {
                 signIn: 'active',
                 signUp: ''
+            },
+            signUpNameValue: '',
+            signUpEmailValue: '',
+            signUpPasswordValue: '',
+            signUpRepPasswordValue: '',
+            signUp: {
+                name: {
+                    regExp: nameRegExp,
+                    valid: '',
+                    maxLength: 40
+                },
+                email: {
+                    regExp: emailRegExp,
+                    valid: ''
+                },
+                password: {
+                    regExp: passwordRegExp,
+                    valid: '',
+                    minLength: 5,
+                    maxLength: 40
+                },
+                repPassword: {
+                    valid: ''
+                }
+            },
+            signInEmailValue: '',
+            signInPasswordValue: '',
+            signInRemember: '',
+            signIn: {
+                email: {
+                    regExp: emailRegExp,
+                    valid: ''
+                },
+                password: {
+                    regExp: passwordRegExp,
+                    valid: ''
+                }
             }
         };
     },
@@ -56301,12 +56614,182 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.forms.signUp = 'active';
             this.forms.signIn = '';
             history.pushState(null, null, '/register');
+        },
+        validateSignUp: function validateSignUp() {
+            if (this.signUp.name.valid == 'valid' && this.signUp.email.valid == 'valid' && this.signUp.password.valid == 'valid' && this.signUp.repPassword.valid == 'valid') {
+                return true;
+            } else {
+                if (this.signUp.name.valid != 'valid') this.signUp.name.valid = 'invalid';
+                if (this.signUp.email.valid != 'valid') this.signUp.email.valid = 'invalid';
+                if (this.signUp.password.valid != 'valid') this.signUp.password.valid = 'invalid';
+                if (this.signUp.repPassword.valid != 'valid') this.signUp.repPassword.valid = 'invalid';
+                return false;
+            }
+        },
+        register: function register() {
+            if (this.validateSignUp()) {
+                $.ajax({
+                    method: 'post',
+                    url: this.urlsignup,
+                    data: {
+                        name: this.signUpNameValue,
+                        email: this.signUpEmailValue,
+                        password: this.signUpPasswordValue
+                    },
+                    beforeSend: function beforeSend() {
+                        preloader.on();
+                    },
+                    success: function success(response) {
+                        if (response == 'registered') {
+                            location.href = '/profile';
+                        } else if (response == 'user already exists') {
+                            preloader.off();
+                            notifications.add({
+                                type: 'danger',
+                                heading: 'Помилка',
+                                message: 'Користувач з такою поштою вже існує'
+                            });
+                        } else {
+                            preloader.off();
+                            notifications.add({
+                                type: 'danger',
+                                heading: 'Помилка',
+                                message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                            });
+                        }
+                    },
+                    error: function error() {
+                        preloader.off();
+                        notifications.add({
+                            type: 'danger',
+                            heading: 'Помилка',
+                            message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                        });
+                    }
+                });
+            } else {
+                notifications.add({
+                    type: 'danger',
+                    heading: 'Помилка',
+                    message: 'Вам необхідно заповнити всі поля вірно'
+                });
+            }
+        },
+        validateSignIn: function validateSignIn() {
+            if (this.signIn.email.valid == 'valid' && this.signIn.password.valid == 'valid') {
+                return true;
+            } else {
+                if (this.signIn.email.valid != 'valid') this.signIn.email.valid = 'invalid';
+                if (this.signIn.password.valid != 'valid') this.signIn.password.valid = 'invalid';
+                return false;
+            }
+        },
+        login: function login() {
+            if (this.validateSignIn()) {
+                $.ajax({
+                    method: 'post',
+                    url: this.urlsignin,
+                    data: {
+                        email: this.signInEmailValue,
+                        password: this.signInPasswordValue,
+                        remember: this.signInRemember
+                    },
+                    beforeSend: function beforeSend() {
+                        preloader.on();
+                    },
+                    success: function success(response) {
+                        if (response == 'authenticated') {
+                            location.href = '/profile';
+                        } else if (response == 'authentication error') {
+                            preloader.off();
+                            notifications.add({
+                                type: 'danger',
+                                heading: 'Помилка',
+                                message: 'Невірна пошта або пароль'
+                            });
+                        } else if (response == 'user not found') {
+                            preloader.off();
+                            notifications.add({
+                                type: 'danger',
+                                heading: 'Помилка',
+                                message: 'Користувача з такою поштою не існує'
+                            });
+                        }
+                    },
+                    error: function error() {
+                        preloader.off();
+                        notifications.add({
+                            type: 'danger',
+                            heading: 'Помилка',
+                            message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                        });
+                    }
+                });
+            } else {
+                notifications.add({
+                    type: 'danger',
+                    heading: 'Помилка',
+                    message: 'Вам необхідно заповнити всі поля вірно'
+                });
+            }
+        }
+    },
+    watch: {
+        signUpNameValue: function signUpNameValue(val) {
+            if (this.signUp.name.regExp.test(val) && checkLength(val, this.signUp.name.maxLength)) {
+                this.signUp.name.valid = 'valid';
+            } else {
+                this.signUp.name.valid = 'invalid';
+            }
+        },
+        signUpEmailValue: function signUpEmailValue(val) {
+            if (this.signUp.email.regExp.test(val)) {
+                this.signUp.email.valid = 'valid';
+            } else {
+                this.signUp.email.valid = 'invalid';
+            }
+        },
+        signUpPasswordValue: function signUpPasswordValue(val) {
+            if (this.signUp.password.regExp.test(val) && checkLength(val, this.signUp.password.maxLength, this.signUp.password.minLength)) {
+                this.signUp.password.valid = 'valid';
+            } else {
+                this.signUp.password.valid = 'invalid';
+            }
+
+            if (this.signUpRepPasswordValue != '' && this.signUpRepPasswordValue != val) {
+                this.signUp.repPassword.valid = 'invalid';
+            }
+
+            if (this.signUpRepPasswordValue != '' && this.signUpRepPasswordValue == val) {
+                this.signUp.repPassword.valid = 'valid';
+            }
+        },
+        signUpRepPasswordValue: function signUpRepPasswordValue(val) {
+            if (this.signUpPasswordValue == val) {
+                this.signUp.repPassword.valid = 'valid';
+            } else {
+                this.signUp.repPassword.valid = 'invalid';
+            }
+        },
+        signInEmailValue: function signInEmailValue(val) {
+            if (this.signIn.email.regExp.test(val)) {
+                this.signIn.email.valid = 'valid';
+            } else {
+                this.signIn.email.valid = 'invalid';
+            }
+        },
+        signInPasswordValue: function signInPasswordValue(val) {
+            if (this.signIn.password.regExp.test(val)) {
+                this.signIn.password.valid = 'valid';
+            } else {
+                this.signIn.password.valid = 'invalid';
+            }
         }
     }
 });
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56341,7 +56824,155 @@ var render = function() {
           class: ["modal-form", _vm.forms.signIn],
           attrs: { id: "signInWrap" }
         },
-        [_vm._m(0)]
+        [
+          _c(
+            "form",
+            {
+              attrs: { id: "signIn" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  _vm.login($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "grid-wrapper" }, [
+                _c("div", { staticClass: "grid-row" }, [
+                  _c("div", { staticClass: "input-field first size-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.signInEmailValue,
+                          expression: "signInEmailValue",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      class: _vm.signIn.email.valid,
+                      attrs: {
+                        id: "sign-in-email",
+                        name: "email",
+                        type: "email"
+                      },
+                      domProps: { value: _vm.signInEmailValue },
+                      on: {
+                        change: function($event) {
+                          _vm.signInEmailValue = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "sign-in-email" } }, [
+                      _vm._v("E-mail")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "helper-text",
+                        attrs: { "data-error": "недопустима адреса" }
+                      },
+                      [_vm._v("ваша електронна адреса")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "grid-row" }, [
+                  _c("div", { staticClass: "input-field size-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.signInPasswordValue,
+                          expression: "signInPasswordValue",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      class: _vm.signIn.password.valid,
+                      attrs: {
+                        id: "sign-in-password",
+                        name: "password",
+                        type: "password"
+                      },
+                      domProps: { value: _vm.signInPasswordValue },
+                      on: {
+                        change: function($event) {
+                          _vm.signInPasswordValue = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "sign-in-password" } }, [
+                      _vm._v("Пароль")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "helper-text",
+                        attrs: { "data-error": "недопустимий пароль" }
+                      },
+                      [_vm._v("ваш пароль")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("label", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.signInRemember,
+                        expression: "signInRemember"
+                      }
+                    ],
+                    attrs: {
+                      id: "sign-in-remember",
+                      name: "remember",
+                      type: "checkbox"
+                    },
+                    domProps: {
+                      checked: Array.isArray(_vm.signInRemember)
+                        ? _vm._i(_vm.signInRemember, null) > -1
+                        : _vm.signInRemember
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.signInRemember,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.signInRemember = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.signInRemember = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.signInRemember = $$c
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Запам'ятати мене")])
+                ]),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._m(1)
+              ])
+            ]
+          )
+        ]
       ),
       _vm._v(" "),
       _c(
@@ -56350,7 +56981,197 @@ var render = function() {
           class: ["modal-form", _vm.forms.signUp],
           attrs: { id: "signUpWrap" }
         },
-        [_vm._m(1)]
+        [
+          _c(
+            "form",
+            {
+              attrs: { id: "signUp" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  _vm.register($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "grid-wrapper" }, [
+                _c("div", { staticClass: "grid-row" }, [
+                  _c("div", { staticClass: "input-field first size-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.signUpNameValue,
+                          expression: "signUpNameValue",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      class: _vm.signUp.name.valid,
+                      attrs: {
+                        id: "sign-up-name",
+                        name: "name",
+                        type: "text",
+                        "data-length": _vm.signUp.name.maxLength
+                      },
+                      domProps: { value: _vm.signUpNameValue },
+                      on: {
+                        change: function($event) {
+                          _vm.signUpNameValue = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "sign-up-name" } }, [
+                      _vm._v("Ім'я")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "helper-text",
+                        attrs: {
+                          "data-error": "недопустима довжина або символи"
+                        }
+                      },
+                      [_vm._v("можливі лише літери")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "grid-row" }, [
+                  _c("div", { staticClass: "input-field size-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.signUpEmailValue,
+                          expression: "signUpEmailValue",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      class: _vm.signUp.email.valid,
+                      attrs: {
+                        id: "sign-up-email",
+                        name: "email",
+                        type: "email"
+                      },
+                      domProps: { value: _vm.signUpEmailValue },
+                      on: {
+                        change: function($event) {
+                          _vm.signUpEmailValue = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "sign-up-email" } }, [
+                      _vm._v("E-mail")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "helper-text",
+                        attrs: { "data-error": "недопустима адреса" }
+                      },
+                      [_vm._v("ваша діюча електронна адреса")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "grid-row" }, [
+                  _c("div", { staticClass: "input-field size-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.signUpPasswordValue,
+                          expression: "signUpPasswordValue",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      class: _vm.signUp.password.valid,
+                      attrs: {
+                        id: "sign-up-password",
+                        name: "password",
+                        type: "password",
+                        "data-length": _vm.signUp.password.maxLength
+                      },
+                      domProps: { value: _vm.signUpPasswordValue },
+                      on: {
+                        change: function($event) {
+                          _vm.signUpPasswordValue = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "sign-up-password" } }, [
+                      _vm._v("Пароль")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", {
+                      staticClass: "helper-text",
+                      attrs: { "data-error": "недопустима довжина або символи" }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "grid-row" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "input-field size-12",
+                      staticStyle: { "margin-top": "0" }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.lazy",
+                            value: _vm.signUpRepPasswordValue,
+                            expression: "signUpRepPasswordValue",
+                            modifiers: { lazy: true }
+                          }
+                        ],
+                        class: _vm.signUp.repPassword.valid,
+                        attrs: {
+                          id: "sign-up-rep-password",
+                          name: "rep-password",
+                          type: "password",
+                          placeholder: "повторіть пароль"
+                        },
+                        domProps: { value: _vm.signUpRepPasswordValue },
+                        on: {
+                          change: function($event) {
+                            _vm.signUpRepPasswordValue = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "helper-text",
+                          attrs: { "data-error": "паролі не співпадають" }
+                        },
+                        [
+                          _vm._v(
+                            "від 5 до 40 символів, можливі лише латинські литери, цифри та - _ ."
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(2)
+              ])
+            ]
+          )
+        ]
       )
     ])
   ])
@@ -56360,147 +57181,32 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("form", { attrs: { id: "signIn" } }, [
-      _c("div", { staticClass: "grid-wrapper" }, [
-        _c("div", { staticClass: "grid-row" }, [
-          _c("div", { staticClass: "input-field first size-12" }, [
-            _c("input", {
-              attrs: { id: "sign-in-email", name: "email", type: "email" }
-            }),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "sign-in-email" } }, [
-              _vm._v("E-mail")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "helper-text" }, [
-              _vm._v("ваша електронна адреса")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid-row" }, [
-          _c("div", { staticClass: "input-field size-12" }, [
-            _c("input", {
-              attrs: {
-                id: "sign-in-password",
-                name: "password",
-                type: "password"
-              }
-            }),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "sign-in-password" } }, [
-              _vm._v("Пароль")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "helper-text" }, [_vm._v("ваш пароль")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("label", [
-          _c("input", {
-            attrs: {
-              id: "sign-in-remember",
-              name: "remember",
-              type: "checkbox"
-            }
-          }),
-          _vm._v(" "),
-          _c("span", [_vm._v("Запам'ятати мене")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid-row button" }, [
-          _c(
-            "button",
-            { staticClass: "btn waves-effect", attrs: { type: "submit" } },
-            [_vm._v("Увійти")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid-row forgot-password" }, [
-          _c("a", { attrs: { href: "#" } }, [_vm._v("Забули пароль?")])
-        ])
-      ])
+    return _c("div", { staticClass: "grid-row button" }, [
+      _c(
+        "button",
+        { staticClass: "btn waves-effect", attrs: { type: "submit" } },
+        [_vm._v("Увійти")]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("form", { attrs: { id: "signUp" } }, [
-      _c("div", { staticClass: "grid-wrapper" }, [
-        _c("div", { staticClass: "grid-row" }, [
-          _c("div", { staticClass: "input-field first size-12" }, [
-            _c("input", {
-              attrs: { id: "sign-up-name", name: "name", type: "text" }
-            }),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "sign-up-name" } }, [_vm._v("Ім'я")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "helper-text" }, [
-              _vm._v("можливі лише літери")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid-row" }, [
-          _c("div", { staticClass: "input-field size-12" }, [
-            _c("input", {
-              attrs: { id: "sign-up-email", name: "email", type: "email" }
-            }),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "sign-up-email" } }, [
-              _vm._v("E-mail")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "helper-text" }, [
-              _vm._v("ваша діюча електронна адреса")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid-row" }, [
-          _c("div", { staticClass: "input-field size-12" }, [
-            _c("input", {
-              attrs: {
-                id: "sign-up-password",
-                name: "password",
-                type: "password"
-              }
-            }),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "sign-up-password" } }, [
-              _vm._v("Пароль")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid-row" }, [
-          _c("div", { staticClass: "input-field size-12" }, [
-            _c("input", {
-              attrs: {
-                id: "sign-up-rep-password",
-                name: "rep-password",
-                type: "password",
-                placeholder: "повторіть пароль"
-              }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "helper-text" }, [
-              _vm._v(
-                "від 5 до 40 символів, можливі лише латинські литери, цифри та - _ ."
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid-row button" }, [
-          _c(
-            "button",
-            { staticClass: "btn waves-effect", attrs: { type: "submit" } },
-            [_vm._v("Зареєструватись")]
-          )
-        ])
-      ])
+    return _c("div", { staticClass: "grid-row forgot-password" }, [
+      _c("a", { attrs: { href: "#" } }, [_vm._v("Забули пароль?")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "grid-row button" }, [
+      _c(
+        "button",
+        { staticClass: "btn waves-effect", attrs: { type: "submit" } },
+        [_vm._v("Зареєструватись")]
+      )
     ])
   }
 ]
@@ -56514,15 +57220,15 @@ if (false) {
 }
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(56)
+var __vue_script__ = __webpack_require__(57)
 /* template */
-var __vue_template__ = __webpack_require__(57)
+var __vue_template__ = __webpack_require__(58)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56561,7 +57267,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56602,27 +57308,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         changeCategory: function changeCategory(alias) {
             this.activeCategory = alias;
-            $('#preloader').removeClass('done');
             if (alias == 'all') {
                 var url = '/products';
             } else {
                 var url = '/products/category/' + alias;
             }
-            history.pushState(null, null, url);
-            axios.get(url + '/vue?csrf_token=' + csrfToken).then(function (response) {
-                var last = window.workshop.$children.length - 1;
-                window.workshop.$children[0].$emit('renderproducts', response.data.data);
-                window.workshop.$children[1].productsArray = response.data;
-                $('#preloader').addClass('done');
-                sliderHack();
-                slideTo('#workshop-anchor');
+            var $this = this;
+            var $paginator = window.workshop.$children[1];
+            $.ajax({
+                method: 'get',
+                url: url + '/vue?csrf_token=' + csrfToken,
+                beforeSend: function beforeSend() {
+                    history.pushState(null, null, url);
+                    preloader.on();
+                },
+                success: function success(response) {
+                    $this.$emit('renderproducts', response.data);
+                    $paginator.productsArray = response;
+                    sliderHack();
+                    slideTo('#workshop-anchor');
+                    preloader.off();
+                }
             });
         }
     }
 });
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56685,7 +57398,7 @@ if (false) {
 }
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -56693,7 +57406,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = null
 /* template */
-var __vue_template__ = __webpack_require__(59)
+var __vue_template__ = __webpack_require__(60)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56732,7 +57445,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56821,15 +57534,15 @@ if (false) {
 }
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(80)
+var __vue_script__ = __webpack_require__(62)
 /* template */
-var __vue_template__ = __webpack_require__(61)
+var __vue_template__ = __webpack_require__(63)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56868,7 +57581,48 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 61 */
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['type', 'heading', 'message', 'index'],
+    data: function data() {
+        return {
+            isShown: ''
+        };
+    },
+    mounted: function mounted() {
+        console.log('added notification with index ' + this.index);
+    },
+    methods: {
+        hide: function hide() {
+            this.$emit('hide', this.index);
+            console.log('closed notification with index ' + this.index);
+        }
+    }
+});
+
+/***/ }),
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56876,11 +57630,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { class: ["alert", _vm.type, _vm.isShown] }, [
-    _c(
-      "div",
-      { staticClass: "alert-close", on: { click: _vm.closeNotification } },
-      [_c("i", { staticClass: "fas fa-times" })]
-    ),
+    _c("div", { staticClass: "alert-close", on: { click: _vm.hide } }, [
+      _c("i", { staticClass: "fas fa-times" })
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "alert-heading" }, [
       _vm._v("\n        " + _vm._s(_vm.heading) + "\n    ")
@@ -56902,7 +57654,7 @@ if (false) {
 }
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports) {
 
 if (checkElement('#vue-workshop-root')) {
@@ -56933,12 +57685,37 @@ if (checkElement('#vue-auth-modal-root')) {
 
 if (checkElement('#vue-notifications-root')) {
     window.notifications = new Vue({
-        el: '#vue-notifications-root'
+        el: '#vue-notifications-root',
+        data: {
+            notifications: [],
+            index: 0
+        },
+        methods: {
+            add: function add(notification) {
+                this.notifications.push({
+                    index: this.index,
+                    heading: notification.heading,
+                    message: notification.message,
+                    type: notification.type
+                });
+                this.index++;
+            },
+            removeAll: function removeAll() {
+                this.notifications = [];
+            },
+            hide: function hide(index) {
+                for (var i = 0; i < this.notifications.length; i++) {
+                    if (this.notifications[i].index == index) {
+                        this.notifications.splice(i, 1);
+                    }
+                }
+            }
+        }
     });
 }
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports) {
 
 if (checkElement('#admin-login-root')) {
@@ -56948,84 +57725,10 @@ if (checkElement('#admin-login-root')) {
 }
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */
-/***/ (function(module, exports) {
-
-function ct() {
-    var width = $(window).width();
-    if (width < 992) {
-        $('.notifies').addClass('top-mobile');
-    } else {
-        $('.notifies').removeClass('top-mobile');
-    }
-
-    var top = $(this).scrollTop();
-    if (top > 100) $('.notifies').addClass('top');else $('.notifies').removeClass('top');
-}
-
-$(window).scroll(ct);
-$(document).ready(ct);
-$(window).resize(ct);
-
-/***/ }),
-/* 80 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['type', 'heading', 'message'],
-    data: function data() {
-        return {
-            isShown: ''
-        };
-    },
-    mounted: function mounted() {
-        this.isShown = 'shown';
-    },
-    methods: {
-        closeNotification: function closeNotification() {
-            console.log('destroy');
-        }
-    }
-});
 
 /***/ })
 /******/ ]);

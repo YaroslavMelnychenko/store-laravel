@@ -47,6 +47,7 @@
                                     :discount="product.discount"
                                     :image="product.image"
                                     :link="/product/ + product.alias"
+                                    :key="product.alias"
                             ></product>
                         </div>
                     </div>
@@ -97,25 +98,37 @@
         <div class="grid-wrapper feedback">
             <div class="contacts">+380 (12) 34-56-789 / mail.example@gmail.com</div>
             <div id="vue-feedback-root" class="feedback-form">
-                <feedback></feedback>
+                <feedback
+                    :url="{{ json_encode(route('feedback')) }}"
+                ></feedback>
             </div>
         </div>
     </section>
-    <div id="vue-auth-modal-root">
-        <auth-modal
-            @if(isset($login))
-                activated="login"
-            @elseif(isset($register))
-                activated="register"
-            @endif
-        ></auth-modal>
-    </div>
+    @guest('web')
+        <div id="vue-auth-modal-root">
+            <auth-modal
+                @if(isset($login))
+                    activated="login"
+                @elseif(isset($register))
+                    activated="register"
+                @endif
+                    :urlsignup="{{ json_encode(route('register')) }}"
+                    :urlsignin="{{ json_encode(route('login')) }}"
+            ></auth-modal>
+        </div>
+    @endguest
     <div id="vue-notifications-root" class="notifies">
-        <notification
-                type="success"
-                heading="Heading"
-                message="This is success message"
-        ></notification>
+        <transition-group name="notify" tag="div">
+            <notification
+                    v-for="notification in notifications"
+                    :index="notification.index"
+                    :type="notification.type"
+                    :heading="notification.heading"
+                    :message="notification.message"
+                    :key="notification.index"
+                    @hide="hide"
+            ></notification>
+        </transition-group>
     </div>
     @include('components.footer')
 @endsection

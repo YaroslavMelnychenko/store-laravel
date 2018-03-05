@@ -10,4 +10,16 @@ $(document).ready(function(){
         e.preventDefault();
         $('.sidenav').sidenav('close');
     });
+    $('.profile-button').click(function () {
+        location.href = '/profile';
+    });
+    $('.logout-button').click(function () {
+        $.ajax({
+            method: 'post',
+            url: '/logout',
+            success: function () {
+                location.href = '/products';
+            }
+        });
+    })
 });
