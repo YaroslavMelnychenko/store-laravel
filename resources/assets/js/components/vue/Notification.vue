@@ -5,12 +5,8 @@
         >
             <i class="fas fa-times"></i>
         </div>
-        <div class="alert-heading">
-            {{ heading }}
-        </div>
-        <div class="alert-content">
-            {{ message }}
-        </div>
+        <div class="alert-heading" v-html="heading"></div>
+        <div class="alert-content" v-html="message"></div>
     </div>
 </template>
 

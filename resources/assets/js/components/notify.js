@@ -1,16 +1,16 @@
 function ct() {
     var width = $(window).width();
     if (width < 992) {
-        $('.notifies').addClass('top-mobile');
+        $('.notifies.with-navbar').addClass('top-mobile');
     } else {
-        $('.notifies').removeClass('top-mobile');
+        $('.notifies.with-navbar').removeClass('top-mobile');
     }
 
     var top = $(this).scrollTop();
     if (top > 100)
-        $('.notifies').addClass('top');
+        $('.notifies.with-navbar').addClass('top');
     else
-        $('.notifies').removeClass('top');
+        $('.notifies.with-navbar').removeClass('top');
 }
 
 $(window).scroll(ct);

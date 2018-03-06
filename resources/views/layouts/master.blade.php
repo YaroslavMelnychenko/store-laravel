@@ -17,9 +17,9 @@
     <link rel="apple-touch-icon" sizes="152x152" href="/assets/favs/apple-touch-icon-152x152.png">
     <link rel="stylesheet" href="/css/minified/fontawesome-all.min.css">
     @if(config('app.env') == 'local')
-        <link rel="stylesheet" href="/css/assembled/common.css">
+        <link rel="stylesheet" href="{{ mix('/css/assembled/common.css') }}">
     @else
-        <link rel="stylesheet" href="/css/minified/common.min.css">
+        <link rel="stylesheet" href="{{ mix('/css/minified/common.min.css') }}">
     @endif
 </head>
 <body>
@@ -31,9 +31,9 @@
     </div>
     <script src="/js/minified/rsa.min.js"></script>
     @if(config('app.env') == 'local')
-        <script src="/js/assembled/common.js"></script>
+        <script src="{{ mix('/js/assembled/common.js') }}"></script>
     @else
-        <script src="/js/minified/common.min.js"></script>
+        <script src="{{ mix('/js/minified/common.min.js') }}"></script>
     @endif
 </body>
 </html>

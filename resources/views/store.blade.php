@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    @include('components.navbar')
-
+    @component('components.navbar')
+    @endcomponent
     <section class="parallax parallax-window top" data-parallax="scroll" data-image-src="/assets/img/parallax1.png">
         <div class="banner-wrap">
             <div class="banner-row">
@@ -105,30 +105,14 @@
         </div>
     </section>
     @guest('web')
-        <div id="vue-auth-modal-root">
-            <auth-modal
-                @if(isset($login))
-                    activated="login"
-                @elseif(isset($register))
-                    activated="register"
-                @endif
-                    :urlsignup="{{ json_encode(route('register')) }}"
-                    :urlsignin="{{ json_encode(route('login')) }}"
-            ></auth-modal>
-        </div>
+        @component('components.auth-modal')
+        @endcomponent
     @endguest
-    <div id="vue-notifications-root" class="notifies">
-        <transition-group name="notify" tag="div">
-            <notification
-                    v-for="notification in notifications"
-                    :index="notification.index"
-                    :type="notification.type"
-                    :heading="notification.heading"
-                    :message="notification.message"
-                    :key="notification.index"
-                    @hide="hide"
-            ></notification>
-        </transition-group>
-    </div>
-    @include('components.footer')
+    @component('components.notifications')
+        @slot('top')
+            with-navbar
+        @endslot
+    @endcomponent
+    @component('components.footer')
+    @endcomponent
 @endsection

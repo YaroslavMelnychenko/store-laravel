@@ -76,3 +76,5 @@ Route::get('/profile', 'ProfileController@show')->name('profile');
 Route::post('/feedback', 'FeedbackController@sendFeedback')->name('feedback');
 
 Route::post('/rsa/pkey', 'RsaController@generateKeyPair');
+
+Route::get('/mail', 'MailController@mail');

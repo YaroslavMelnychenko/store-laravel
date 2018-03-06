@@ -1,6 +1,6 @@
 <template>
     <div class="admin-login">
-        <form id="adminLogin" @submit.prevent="submit">
+        <form id="adminLogin" @submit.prevent="submit" autocomplete="off">
             <div class="grid-wrapper">
                 <div class="grid-row">
                     <div class="input-field first size-12">
@@ -150,7 +150,7 @@
                     notifications.add({
                         type: 'danger',
                         heading: 'Помилка',
-                        message: 'В полях є заборонені символи, вони пусті або поштова адреса недійсна'
+                        message: 'В полях є заборонені символи, вони порожні<br> або поштова адреса недійсна'
                     });
                 }
             }
