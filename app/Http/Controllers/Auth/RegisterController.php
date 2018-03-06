@@ -51,9 +51,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:40',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:5|max:40',
+            'name' => 'required|max:40',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:5|max:40',
         ]);
     }
 
@@ -86,9 +86,17 @@ class RegisterController extends Controller
             return response('user already exists');
         }
 
-        $this->validator($request->all())->validate();
+        $this->validator([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password
+        ])->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($user = $this->create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password
+        ])));
 
         $this->guard()->login($user);
 

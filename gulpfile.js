@@ -92,16 +92,16 @@ gulp.task('deploy', function () {
     });
 
     var globs = [
-        'app/**',
-        'bootstrap/**',
-        'config/**',
-        'database/**',
-        'public/**',
-        'resources/**',
-        'routes/**',
-        'storage/**',
-        'tests/**',
-        'vendor/**',
+        'app/**/*.*',
+        'bootstrap/**/*.*',
+        'config/**/*.*',
+        'database/**/*.*',
+        'public/**/*.*',
+        'resources/**/*.*',
+        'routes/**/*.*',
+        'storage/**/*.*',
+        'tests/**/*.*',
+        'vendor/**/*.*',
         '.env.example',
         '.htaccess',
         'artisan.php',
@@ -109,7 +109,7 @@ gulp.task('deploy', function () {
         'server.php'
     ];
 
-    gulp.src(globs, {
+    return gulp.src(globs, {
         base: '.',
         buffer: false
     }).pipe(conn.newer('/'));

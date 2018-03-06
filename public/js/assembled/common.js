@@ -1076,7 +1076,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(66);
+module.exports = __webpack_require__(68);
 
 
 /***/ }),
@@ -1123,22 +1123,22 @@ window.nameRegExp = new RegExp(/^[\t-\r 'A-Z`-z\xA0\u0401\u0404\u0406\u0407\u041
 window.passwordRegExp = new RegExp(/^[a-zA-Z0-9-_\.]{1,}$/);
 
 __webpack_require__(12);
-__webpack_require__(39);
 __webpack_require__(40);
 __webpack_require__(41);
 __webpack_require__(42);
 __webpack_require__(43);
+__webpack_require__(44);
 
-Vue.component('paginator', __webpack_require__(44));
-Vue.component('product', __webpack_require__(47));
-Vue.component('feedback', __webpack_require__(50));
-Vue.component('auth-modal', __webpack_require__(53));
-Vue.component('categorizer', __webpack_require__(56));
-Vue.component('admin-login', __webpack_require__(59));
-Vue.component('notification', __webpack_require__(61));
+Vue.component('paginator', __webpack_require__(45));
+Vue.component('product', __webpack_require__(48));
+Vue.component('feedback', __webpack_require__(51));
+Vue.component('auth-modal', __webpack_require__(54));
+Vue.component('categorizer', __webpack_require__(57));
+Vue.component('admin-login', __webpack_require__(60));
+Vue.component('notification', __webpack_require__(63));
 
-__webpack_require__(64);
-__webpack_require__(65);
+__webpack_require__(66);
+__webpack_require__(67);
 
 $(document).ready(function () {
     $('input[data-length], textarea[data-length]').characterCounter();
@@ -43089,7 +43089,8 @@ return jQuery;
 
 
 /***/ }),
-/* 39 */
+/* 39 */,
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -55080,7 +55081,7 @@ $jscomp.polyfill = function (e, r, p, m) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -55487,7 +55488,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery, window, document);
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
@@ -55506,18 +55507,12 @@ $(document).ready(function () {
         location.href = '/profile';
     });
     $('.logout-button').click(function () {
-        $.ajax({
-            method: 'post',
-            url: '/logout',
-            success: function success() {
-                location.href = '/products';
-            }
-        });
+        location.href = '/profile/logout';
     });
 });
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 window.onload = function () {
@@ -55528,7 +55523,7 @@ window.onload = function () {
 };
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 function ct() {
@@ -55548,15 +55543,15 @@ $(document).ready(ct);
 $(window).resize(ct);
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(45)
+var __vue_script__ = __webpack_require__(46)
 /* template */
-var __vue_template__ = __webpack_require__(46)
+var __vue_template__ = __webpack_require__(47)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55595,7 +55590,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55680,7 +55675,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55746,15 +55741,15 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(48)
+var __vue_script__ = __webpack_require__(49)
 /* template */
-var __vue_template__ = __webpack_require__(49)
+var __vue_template__ = __webpack_require__(50)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55793,7 +55788,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55840,7 +55835,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55958,15 +55953,15 @@ if (false) {
 }
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(51)
+var __vue_script__ = __webpack_require__(52)
 /* template */
-var __vue_template__ = __webpack_require__(52)
+var __vue_template__ = __webpack_require__(53)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56005,7 +56000,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56172,7 +56167,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56370,15 +56365,15 @@ if (false) {
 }
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(54)
+var __vue_script__ = __webpack_require__(55)
 /* template */
-var __vue_template__ = __webpack_require__(55)
+var __vue_template__ = __webpack_require__(56)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56417,7 +56412,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56560,7 +56555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             signInEmailValue: '',
             signInPasswordValue: '',
-            signInRemember: '',
+            signInRemember: false,
             signIn: {
                 email: {
                     regExp: emailRegExp,
@@ -56601,6 +56596,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        receiveRsaPublicKey: function receiveRsaPublicKey() {
+            var _success = false;
+            $.ajax({
+                method: 'post',
+                url: '/rsa/pkey',
+                async: false,
+                success: function success(response) {
+                    console.log('rsa public key received');
+                    window.authModal.rsaPublicKey = response;
+                    _success = true;
+                },
+                error: function error() {
+                    console.log('error rsa public key receiving');
+                    notifications.add({
+                        type: 'danger',
+                        heading: 'Помилка',
+                        message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                    });
+                }
+            });
+            return _success;
+        },
         showSignIn: function showSignIn() {
             this.tabs.signUp = '';
             this.tabs.signIn = 'active';
@@ -56628,13 +56645,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         register: function register() {
             if (this.validateSignUp()) {
+                this.receiveRsaPublicKey();
+                var key = RSA.getPublicKey(window.authModal.rsaPublicKey);
+                var signUpEmailValueEncrypted = RSA.encrypt(this.signUpEmailValue, key);
+                var signUpPasswordValueEncrypted = RSA.encrypt(this.signUpPasswordValue, key);
                 $.ajax({
                     method: 'post',
                     url: this.urlsignup,
                     data: {
                         name: this.signUpNameValue,
-                        email: this.signUpEmailValue,
-                        password: this.signUpPasswordValue
+                        email: signUpEmailValueEncrypted,
+                        password: signUpPasswordValueEncrypted
                     },
                     beforeSend: function beforeSend() {
                         preloader.on();
@@ -56686,12 +56707,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         login: function login() {
             if (this.validateSignIn()) {
+                this.receiveRsaPublicKey();
+                var key = RSA.getPublicKey(window.authModal.rsaPublicKey);
+                var signInEmailValueEncrypted = RSA.encrypt(this.signInEmailValue, key);
+                var signInPasswordValueEncrypted = RSA.encrypt(this.signInPasswordValue, key);
                 $.ajax({
                     method: 'post',
                     url: this.urlsignin,
                     data: {
-                        email: this.signInEmailValue,
-                        password: this.signInPasswordValue,
+                        email: signInEmailValueEncrypted,
+                        password: signInPasswordValueEncrypted,
                         remember: this.signInRemember
                     },
                     beforeSend: function beforeSend() {
@@ -56789,7 +56814,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56885,10 +56910,9 @@ var render = function() {
                       directives: [
                         {
                           name: "model",
-                          rawName: "v-model.lazy",
+                          rawName: "v-model",
                           value: _vm.signInPasswordValue,
-                          expression: "signInPasswordValue",
-                          modifiers: { lazy: true }
+                          expression: "signInPasswordValue"
                         }
                       ],
                       class: _vm.signIn.password.valid,
@@ -56899,7 +56923,10 @@ var render = function() {
                       },
                       domProps: { value: _vm.signInPasswordValue },
                       on: {
-                        change: function($event) {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
                           _vm.signInPasswordValue = $event.target.value
                         }
                       }
@@ -57130,10 +57157,9 @@ var render = function() {
                         directives: [
                           {
                             name: "model",
-                            rawName: "v-model.lazy",
+                            rawName: "v-model",
                             value: _vm.signUpRepPasswordValue,
-                            expression: "signUpRepPasswordValue",
-                            modifiers: { lazy: true }
+                            expression: "signUpRepPasswordValue"
                           }
                         ],
                         class: _vm.signUp.repPassword.valid,
@@ -57145,7 +57171,10 @@ var render = function() {
                         },
                         domProps: { value: _vm.signUpRepPasswordValue },
                         on: {
-                          change: function($event) {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
                             _vm.signUpRepPasswordValue = $event.target.value
                           }
                         }
@@ -57220,15 +57249,15 @@ if (false) {
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(57)
+var __vue_script__ = __webpack_require__(58)
 /* template */
-var __vue_template__ = __webpack_require__(58)
+var __vue_template__ = __webpack_require__(59)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -57267,7 +57296,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57335,7 +57364,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -57398,15 +57427,15 @@ if (false) {
 }
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(61)
 /* template */
-var __vue_template__ = __webpack_require__(60)
+var __vue_template__ = __webpack_require__(62)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -57445,31 +57474,214 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 60 */
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['url'],
+    data: function data() {
+        return {
+            emailValue: '',
+            passwordValue: '',
+            remember: false,
+            email: {
+                valid: '',
+                regExp: emailRegExp
+            },
+            password: {
+                valid: '',
+                regExp: passwordRegExp
+            }
+        };
+    },
+    watch: {
+        emailValue: function emailValue(val) {
+            if (this.email.regExp.test(val)) {
+                this.email.valid = 'valid';
+            } else {
+                this.email.valid = 'invalid';
+            }
+        },
+        passwordValue: function passwordValue(val) {
+            if (this.password.regExp.test(val)) {
+                this.password.valid = 'valid';
+            } else {
+                this.password.valid = 'invalid';
+            }
+        }
+    },
+    methods: {
+        receiveRsaPublicKey: function receiveRsaPublicKey() {
+            var _success = false;
+            $.ajax({
+                method: 'post',
+                url: '/rsa/pkey',
+                async: false,
+                success: function success(response) {
+                    console.log('rsa public key received');
+                    window.adminLogin.rsaPublicKey = response;
+                    _success = true;
+                },
+                error: function error() {
+                    console.log('error rsa public key receiving');
+                    notifications.add({
+                        type: 'danger',
+                        heading: 'Помилка',
+                        message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                    });
+                }
+            });
+            return _success;
+        },
+        validate: function validate() {
+            if (this.email.valid == 'valid' && this.password.valid == 'valid') {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        submit: function submit() {
+            if (this.validate()) {
+                this.receiveRsaPublicKey();
+                var key = RSA.getPublicKey(window.adminLogin.rsaPublicKey);
+                var emailValueEncrypted = RSA.encrypt(this.emailValue, key);
+                var passwordValueEncrypted = RSA.encrypt(this.passwordValue, key);
+                $.ajax({
+                    method: 'post',
+                    url: this.url,
+                    data: {
+                        email: emailValueEncrypted,
+                        password: passwordValueEncrypted,
+                        remember: this.remember
+                    },
+                    beforeSend: function beforeSend() {
+                        preloader.on();
+                    },
+                    success: function success(response) {
+                        if (response == 'authenticated') {
+                            location.href = '/admin';
+                        } else if (response == 'authentication error') {
+                            preloader.off();
+                            notifications.add({
+                                type: 'danger',
+                                heading: 'Помилка',
+                                message: 'Невірна пошта або пароль'
+                            });
+                        } else if (response == 'user not found') {
+                            preloader.off();
+                            notifications.add({
+                                type: 'danger',
+                                heading: 'Помилка',
+                                message: 'Адміністратора з такою поштою не існує'
+                            });
+                        }
+                    },
+                    error: function error() {
+                        preloader.off();
+                        notifications.add({
+                            type: 'danger',
+                            heading: 'Помилка',
+                            message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                        });
+                    }
+                });
+            } else {
+                notifications.add({
+                    type: 'danger',
+                    heading: 'Помилка',
+                    message: 'В полях є заборонені символи, вони пусті або поштова адреса недійсна'
+                });
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "admin-login" }, [
-      _c("form", { attrs: { id: "adminLogin" } }, [
+  return _c("div", { staticClass: "admin-login" }, [
+    _c(
+      "form",
+      {
+        attrs: { id: "adminLogin" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.submit($event)
+          }
+        }
+      },
+      [
         _c("div", { staticClass: "grid-wrapper" }, [
           _c("div", { staticClass: "grid-row" }, [
             _c("div", { staticClass: "input-field first size-12" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.emailValue,
+                    expression: "emailValue"
+                  }
+                ],
                 attrs: {
                   id: "admin-login-email",
                   name: "email",
                   type: "email",
                   placeholder: ""
+                },
+                domProps: { value: _vm.emailValue },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.emailValue = $event.target.value
+                  }
                 }
               }),
               _vm._v(" "),
@@ -57482,11 +57694,28 @@ var staticRenderFns = [
           _c("div", { staticClass: "grid-row" }, [
             _c("div", { staticClass: "input-field size-12" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.passwordValue,
+                    expression: "passwordValue"
+                  }
+                ],
                 attrs: {
                   id: "admin-login-password",
                   name: "password",
                   type: "password",
                   placeholder: ""
+                },
+                domProps: { value: _vm.passwordValue },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.passwordValue = $event.target.value
+                  }
                 }
               }),
               _vm._v(" "),
@@ -57498,29 +57727,77 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("label", [
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.remember,
+                  expression: "remember"
+                }
+              ],
               attrs: {
                 id: "admin-login-remember",
                 name: "remember",
                 type: "checkbox"
+              },
+              domProps: {
+                checked: Array.isArray(_vm.remember)
+                  ? _vm._i(_vm.remember, null) > -1
+                  : _vm.remember
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.remember,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.remember = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.remember = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.remember = $$c
+                  }
+                }
               }
             }),
             _vm._v(" "),
             _c("span", [_vm._v("Запам'ятати мене")])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "grid-row button" }, [
-            _c(
-              "button",
-              { staticClass: "btn waves-effect", attrs: { type: "submit" } },
-              [_vm._v("Увійти")]
-            )
-          ]),
+          _vm._m(0),
           _vm._v(" "),
-          _c("div", { staticClass: "grid-row forgot-password" }, [
-            _c("a", { attrs: { href: "#" } }, [_vm._v("Забули пароль?")])
-          ])
+          _vm._m(1)
         ])
-      ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "grid-row button" }, [
+      _c(
+        "button",
+        { staticClass: "btn waves-effect", attrs: { type: "submit" } },
+        [_vm._v("Увійти")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "grid-row forgot-password" }, [
+      _c("a", { attrs: { href: "#" } }, [_vm._v("Забули пароль?")])
     ])
   }
 ]
@@ -57534,15 +57811,15 @@ if (false) {
 }
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(62)
+var __vue_script__ = __webpack_require__(64)
 /* template */
-var __vue_template__ = __webpack_require__(63)
+var __vue_template__ = __webpack_require__(65)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -57581,7 +57858,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57622,7 +57899,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -57654,7 +57931,7 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports) {
 
 if (checkElement('#vue-workshop-root')) {
@@ -57679,7 +57956,10 @@ if (checkElement('#vue-feedback-root')) {
 
 if (checkElement('#vue-auth-modal-root')) {
     window.authModal = new Vue({
-        el: '#vue-auth-modal-root'
+        el: '#vue-auth-modal-root',
+        data: {
+            rsaPublicKey: ''
+        }
     });
 }
 
@@ -57715,17 +57995,20 @@ if (checkElement('#vue-notifications-root')) {
 }
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports) {
 
 if (checkElement('#admin-login-root')) {
     window.adminLogin = new Vue({
-        el: '#admin-login-root'
+        el: '#admin-login-root',
+        data: {
+            rsaPublicKey: ''
+        }
     });
 }
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

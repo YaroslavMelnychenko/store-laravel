@@ -21,7 +21,7 @@
                         <div class="grid-row">
                             <div class="input-field size-12">
                                 <input id="sign-in-password" name="password" type="password"
-                                       v-model.lazy="signInPasswordValue"
+                                       v-model="signInPasswordValue"
                                        :class="signIn.password.valid"
                                 >
                                 <label for="sign-in-password">Пароль</label>
@@ -81,7 +81,7 @@
                         <div class="grid-row">
                             <div class="input-field size-12" style="margin-top: 0">
                                 <input id="sign-up-rep-password" name="rep-password" type="password" placeholder="повторіть пароль"
-                                       v-model.lazy="signUpRepPasswordValue"
+                                       v-model="signUpRepPasswordValue"
                                        :class="signUp.repPassword.valid"
                                 >
                                 <span class="helper-text" data-error="паролі не співпадають">від 5 до 40 символів, можливі лише латинські литери, цифри та - _ .</span>
@@ -136,7 +136,7 @@ export default {
             },
             signInEmailValue: '',
             signInPasswordValue: '',
-            signInRemember: '',
+            signInRemember: false,
             signIn: {
                 email: {
                     regExp: emailRegExp,
@@ -177,6 +177,28 @@ export default {
         }
     },
     methods: {
+        receiveRsaPublicKey: function () {
+            var success = false;
+            $.ajax({
+                method: 'post',
+                url: '/rsa/pkey',
+                async: false,
+                success: function (response) {
+                    console.log('rsa public key received');
+                    window.authModal.rsaPublicKey = response;
+                    success = true;
+                },
+                error: function () {
+                    console.log('error rsa public key receiving');
+                    notifications.add({
+                        type: 'danger',
+                        heading: 'Помилка',
+                        message: 'Внутрішня помилка сервера, зверніться до адміністратора'
+                    });
+                }
+            });
+            return success;
+        },
         showSignIn: function() {
             this.tabs.signUp = '';
             this.tabs.signIn = 'active';
@@ -213,13 +235,17 @@ export default {
         },
         register: function () {
             if(this.validateSignUp()){
+                this.receiveRsaPublicKey();
+                var key = RSA.getPublicKey(window.authModal.rsaPublicKey);
+                var signUpEmailValueEncrypted = RSA.encrypt(this.signUpEmailValue, key);
+                var signUpPasswordValueEncrypted = RSA.encrypt(this.signUpPasswordValue, key);
                 $.ajax({
                     method: 'post',
                     url: this.urlsignup,
                     data: {
                         name: this.signUpNameValue,
-                        email: this.signUpEmailValue,
-                        password: this.signUpPasswordValue
+                        email: signUpEmailValueEncrypted,
+                        password: signUpPasswordValueEncrypted
                     },
                     beforeSend: function () {
                         preloader.on();
@@ -276,12 +302,16 @@ export default {
         },
         login: function () {
             if (this.validateSignIn()) {
+                this.receiveRsaPublicKey();
+                var key = RSA.getPublicKey(window.authModal.rsaPublicKey);
+                var signInEmailValueEncrypted = RSA.encrypt(this.signInEmailValue, key);
+                var signInPasswordValueEncrypted = RSA.encrypt(this.signInPasswordValue, key);
                 $.ajax({
                     method: 'post',
                     url: this.urlsignin,
                     data: {
-                        email: this.signInEmailValue,
-                        password: this.signInPasswordValue,
+                        email: signInEmailValueEncrypted,
+                        password: signInPasswordValueEncrypted,
                         remember: this.signInRemember
                     },
                     beforeSend: function () {

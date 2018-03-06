@@ -29,6 +29,7 @@
     <div class="content-wrapper">
         @yield('content')
     </div>
+    <script src="/js/minified/rsa.min.js"></script>
     @if(config('app.env') == 'local')
         <script src="/js/assembled/common.js"></script>
     @else

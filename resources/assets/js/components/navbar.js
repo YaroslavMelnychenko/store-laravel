@@ -14,12 +14,6 @@ $(document).ready(function(){
         location.href = '/profile';
     });
     $('.logout-button').click(function () {
-        $.ajax({
-            method: 'post',
-            url: '/logout',
-            success: function () {
-                location.href = '/products';
-            }
-        });
+        location.href = '/profile/logout';
     })
 });

@@ -59,5 +59,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verify.vue' => \App\Http\Middleware\VerifyVueRequest::class,
+        'crypt.auth' => \App\Http\Middleware\CryptAuthData::class
     ];
 }

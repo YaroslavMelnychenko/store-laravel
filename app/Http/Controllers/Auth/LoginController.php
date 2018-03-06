@@ -38,7 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout', 'userLogout']);
     }
 
     public function showLoginForm()
@@ -48,21 +48,29 @@ class LoginController extends Controller
         ]);
     }
 
+    public function userLogout()
+    {
+        Auth::guard('web')->logout();
+        return redirect('/');
+    }
+
     public function logout(Request $request)
     {
-        $this->guard()->logout();
-
-        $request->session()->invalidate();
-
-        return response('logout');
+        Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
+        return redirect('/');
     }
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make([
+            'email' => $request->email,
+            'password' => $request->password
+        ], [
             'email' => 'required|email',
             'password' => 'required|max:40'
         ]);
+
         if($validator->fails()){
             return response('validation error', 500);
         }

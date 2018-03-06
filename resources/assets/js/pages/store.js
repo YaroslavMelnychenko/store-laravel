@@ -20,7 +20,10 @@ if(checkElement('#vue-feedback-root')){
 
 if(checkElement('#vue-auth-modal-root')){
     window.authModal = new Vue({
-        el: '#vue-auth-modal-root'
+        el: '#vue-auth-modal-root',
+        data: {
+            rsaPublicKey: ''
+        }
     });
 }
 
