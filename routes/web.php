@@ -73,6 +73,7 @@ Route::post('/register', 'Auth\RegisterController@register')->middleware('crypt.
 
 Route::get('/profile', 'ProfileController@show')->name('profile');
 
-Route::post('/feedback', 'FeedbackController@sendFeedback')->name('feedback');
+Route::get('/feedback/send', 'FeedbackController@sendFeedback')->name('feedback.send');
+Route::post('/feedback/create', 'FeedbackController@createFeedback')->name('feedback.create');
 
 Route::post('/rsa/pkey', 'RsaController@generateKeyPair');

@@ -386,7 +386,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         var modal = document.querySelector('#authModal');
-        if (this.activated !== undefined) {
+        if (this.activated != '') {
             var instance = M.Modal.init(modal, {
                 dismissible: false
             });
@@ -758,7 +758,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['url'],
+    props: ['url-create', 'url-send'],
     data: function data() {
         return {
             nameValue: '',
@@ -782,26 +782,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             text: {
                 valid: '',
                 maxLength: 500
-            }
+            },
+            blocked: false
         };
     },
     methods: {
         validate: function validate() {
-            if (this.name.valid == 'valid' && this.theme.valid == 'valid' && this.email.valid == 'valid' && this.text.valid == 'valid') {
-                return true;
+            if (!this.blocked) {
+                if (this.name.valid == 'valid' && this.theme.valid == 'valid' && this.email.valid == 'valid' && this.text.valid == 'valid') {
+                    return 'valid';
+                } else {
+                    if (this.name.valid != 'valid') this.name.valid = 'invalid';
+                    if (this.theme.valid != 'valid') this.theme.valid = 'invalid';
+                    if (this.email.valid != 'valid') this.email.valid = 'invalid';
+                    if (this.text.valid != 'valid') this.text.valid = 'invalid';
+                    return 'invalid';
+                }
             } else {
-                if (this.name.valid != 'valid') this.name.valid = 'invalid';
-                if (this.theme.valid != 'valid') this.theme.valid = 'invalid';
-                if (this.email.valid != 'valid') this.email.valid = 'invalid';
-                if (this.text.valid != 'valid') this.text.valid = 'invalid';
-                return false;
+                return 'blocked';
             }
         },
+        sendRequest: function sendRequest() {
+            $.ajax({
+                method: 'get',
+                url: this.urlSend
+            });
+        },
         submit: function submit() {
-            if (this.validate()) {
+            var validate = this.validate();
+            if (validate == 'valid') {
+                var $this = this;
                 $.ajax({
                     method: 'post',
-                    url: this.url,
+                    url: this.urlCreate,
                     data: {
                         name: this.nameValue,
                         theme: this.themeValue,
@@ -813,7 +826,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     },
                     success: function success(response) {
                         preloader.off();
-                        console.log(response);
+                        if (response == 'success') {
+                            notifications.add({
+                                type: 'success',
+                                heading: 'Повідомлення',
+                                message: 'Ваше повідомлення успішно відправлено!<br>Очікуйте відповіді'
+                            });
+                            $this.eraseInputs();
+                            $this.sendRequest();
+                        }
                     },
                     error: function error() {
                         preloader.off();
@@ -824,43 +845,67 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         });
                     }
                 });
+            } else if (validate == 'blocked') {
+                notifications.add({
+                    type: 'warning',
+                    heading: 'Попередження',
+                    message: 'Ви вже відправили повідомлення'
+                });
             } else {
-                console.log('errors');
                 notifications.add({
                     type: 'danger',
                     heading: 'Помилка',
                     message: 'Вам необхідно заповнити всі поля вірно'
                 });
             }
+        },
+        eraseInputs: function eraseInputs() {
+            this.blocked = true;
+            this.nameValue = '';
+            this.themeValue = '';
+            this.emailValue = '';
+            this.textValue = '';
+            this.name.valid = '';
+            this.theme.valid = '';
+            this.email.valid = '';
+            this.text.valid = '';
         }
     },
     watch: {
         nameValue: function nameValue(val) {
-            if (this.name.regExp.test(val) && checkLength(val, this.name.maxLength)) {
-                this.name.valid = 'valid';
-            } else {
-                this.name.valid = 'invalid';
+            if (!this.blocked) {
+                if (this.name.regExp.test(val) && checkLength(val, this.name.maxLength)) {
+                    this.name.valid = 'valid';
+                } else {
+                    this.name.valid = 'invalid';
+                }
             }
         },
         themeValue: function themeValue(val) {
-            if (this.theme.regExp.test(val) && checkLength(val, this.theme.maxLength)) {
-                this.theme.valid = 'valid';
-            } else {
-                this.theme.valid = 'invalid';
+            if (!this.blocked) {
+                if (this.theme.regExp.test(val) && checkLength(val, this.theme.maxLength)) {
+                    this.theme.valid = 'valid';
+                } else {
+                    this.theme.valid = 'invalid';
+                }
             }
         },
         emailValue: function emailValue(val) {
-            if (this.email.regExp.test(val)) {
-                this.email.valid = 'valid';
-            } else {
-                this.email.valid = 'invalid';
+            if (!this.blocked) {
+                if (this.email.regExp.test(val)) {
+                    this.email.valid = 'valid';
+                } else {
+                    this.email.valid = 'invalid';
+                }
             }
         },
         textValue: function textValue(val) {
-            if (checkLength(val, this.text.maxLength)) {
-                this.text.valid = 'valid';
-            } else {
-                this.text.valid = 'invalid';
+            if (!this.blocked) {
+                if (checkLength(val, this.text.maxLength)) {
+                    this.text.valid = 'valid';
+                } else {
+                    this.text.valid = 'invalid';
+                }
             }
         }
     }
@@ -893,13 +938,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             isShown: ''
         };
     },
-    mounted: function mounted() {
-        console.log('added notification with index ' + this.index);
-    },
     methods: {
         hide: function hide() {
             this.$emit('hide', this.index);
-            console.log('closed notification with index ' + this.index);
         }
     }
 });
@@ -12113,10 +12154,9 @@ var render = function() {
             directives: [
               {
                 name: "model",
-                rawName: "v-model.lazy",
+                rawName: "v-model",
                 value: _vm.textValue,
-                expression: "textValue",
-                modifiers: { lazy: true }
+                expression: "textValue"
               }
             ],
             staticClass: "materialize-textarea",
@@ -12128,7 +12168,10 @@ var render = function() {
             },
             domProps: { value: _vm.textValue },
             on: {
-              change: function($event) {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
                 _vm.textValue = $event.target.value
               }
             }

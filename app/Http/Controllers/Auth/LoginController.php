@@ -44,7 +44,7 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('store', [
-            'login' => true
+            'activated' => 'login'
         ]);
     }
 

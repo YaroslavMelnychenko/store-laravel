@@ -18,13 +18,9 @@
                 isShown: ''
             }
         },
-        mounted: function () {
-            console.log('added notification with index ' + this.index);
-        },
         methods: {
             hide: function () {
                 this.$emit('hide', this.index);
-                console.log('closed notification with index ' + this.index);
             }
         }
     }

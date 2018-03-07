@@ -99,13 +99,17 @@
             <div class="contacts">+380 (12) 34-56-789 / mail.example@gmail.com</div>
             <div id="vue-feedback-root" class="feedback-form">
                 <feedback
-                    :url="{{ json_encode(route('feedback')) }}"
+                    :url-create="{{ json_encode(route('feedback.create')) }}"
+                    :url-send="{{ json_encode(route('feedback.send')) }}"
                 ></feedback>
             </div>
         </div>
     </section>
     @guest('web')
         @component('components.auth-modal')
+            @slot('activated')
+                {{ $activated or null }}
+            @endslot
         @endcomponent
     @endguest
     @component('components.notifications')

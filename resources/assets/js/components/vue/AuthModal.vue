@@ -151,7 +151,7 @@ export default {
     },
     mounted: function() {
         var modal = document.querySelector('#authModal');
-        if (this.activated !== undefined) {
+        if (this.activated != '') {
             var instance = M.Modal.init(modal, {
                 dismissible: false
             });
