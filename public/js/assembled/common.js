@@ -12313,34 +12313,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "product-column" }, [
-    _c("div", { staticClass: "product" }, [
-      _c(
-        "div",
-        {
-          staticClass: "product-view",
-          on: {
-            click: function($event) {
-              $event.stopPropagation()
-              if ($event.target !== $event.currentTarget) {
-                return null
-              }
-              _vm.openProduct($event)
-            }
+    _c(
+      "div",
+      {
+        staticClass: "product",
+        on: {
+          click: function($event) {
+            $event.stopPropagation()
+            _vm.openProduct($event)
           }
-        },
-        [
-          _c("img", {
-            attrs: { src: _vm.imageSrc, alt: "product" },
-            on: {
-              click: function($event) {
-                $event.stopPropagation()
-                if ($event.target !== $event.currentTarget) {
-                  return null
-                }
-                _vm.openProduct($event)
-              }
-            }
-          }),
+        }
+      },
+      [
+        _c("div", { staticClass: "product-view" }, [
+          _c("img", { attrs: { src: _vm.imageSrc, alt: "product" } }),
           _vm._v(" "),
           _vm.meta
             ? _c("div", { staticClass: "product-meta" }, [
@@ -12349,67 +12335,38 @@ var render = function() {
                 )
               ])
             : _vm._e()
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "product-name",
-          on: {
-            click: function($event) {
-              $event.stopPropagation()
-              if ($event.target !== $event.currentTarget) {
-                return null
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "product-name" }, [_vm._v(_vm._s(_vm.name))]),
+        _vm._v(" "),
+        _vm.discount
+          ? _c(
+              "div",
+              {
+                staticClass: "product-price discount",
+                attrs: { "data-new": _vm.discountString }
+              },
+              [_vm._v(_vm._s(_vm.priceString))]
+            )
+          : _c("div", { staticClass: "product-price" }, [
+              _vm._v(_vm._s(_vm.priceString))
+            ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "btn waves-effect",
+            on: {
+              click: function($event) {
+                $event.stopPropagation()
+                _vm.addItem($event)
               }
-              _vm.openProduct($event)
             }
-          }
-        },
-        [_vm._v(_vm._s(_vm.name))]
-      ),
-      _vm._v(" "),
-      _vm.discount
-        ? _c(
-            "div",
-            {
-              staticClass: "product-price discount",
-              attrs: { "data-new": _vm.discountString },
-              on: {
-                click: function($event) {
-                  $event.stopPropagation()
-                  if ($event.target !== $event.currentTarget) {
-                    return null
-                  }
-                  _vm.openProduct($event)
-                }
-              }
-            },
-            [_vm._v(_vm._s(_vm.priceString))]
-          )
-        : _c(
-            "div",
-            {
-              staticClass: "product-price",
-              on: {
-                click: function($event) {
-                  $event.stopPropagation()
-                  if ($event.target !== $event.currentTarget) {
-                    return null
-                  }
-                  _vm.openProduct($event)
-                }
-              }
-            },
-            [_vm._v(_vm._s(_vm.priceString))]
-          ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "btn waves-effect", on: { click: _vm.addItem } },
-        [_vm._v("Додати в кошик")]
-      )
-    ])
+          },
+          [_vm._v("Додати в кошик")]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = []

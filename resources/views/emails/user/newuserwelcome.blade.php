@@ -1,12 +1,15 @@
 @component('mail::message')
-# Introduction
+# Шановний(а) {{$user->name}}!
 
-The body of your message.
+Дякуємо що зареєструвались в нашому інтернет-магазині!<br>
+Переглянути та змінити Вашу особисту інформацію Ви можете в профілі.<br>
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('emails.components.button', ['url' => config('app.url').'/profile'])
+Перейти в профіль
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+Ваша особиста інформація полегшує оформлення замовлень та співпрацю з Вами.
+
+Щиро Ваші,<br>
+адміністрація {{config('app.name')}}
 @endcomponent

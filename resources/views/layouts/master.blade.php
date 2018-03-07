@@ -19,7 +19,7 @@
     @if(config('app.env') == 'local')
         <link rel="stylesheet" href="{{ mix('/css/assembled/common.css') }}">
     @else
-        <link rel="stylesheet" href="{{ mix('/css/minified/common.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/minified/common.min.css') }}">
     @endif
 </head>
 <body>
@@ -33,7 +33,7 @@
     @if(config('app.env') == 'local')
         <script src="{{ mix('/js/assembled/common.js') }}"></script>
     @else
-        <script src="{{ mix('/js/minified/common.min.js') }}"></script>
+        <script src="{{ asset('/js/minified/common.min.js') }}"></script>
     @endif
 </body>
 </html>

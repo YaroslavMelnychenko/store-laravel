@@ -1,16 +1,16 @@
 <template>
     <div class="product-column">
-        <div class="product">
-            <div class="product-view" @click.stop.self="openProduct">
-                <img :src="imageSrc" alt="product" @click.stop.self="openProduct">
+        <div class="product" @click.stop="openProduct">
+            <div class="product-view">
+                <img :src="imageSrc" alt="product">
                 <div v-if="meta" class="product-meta">
                     {{ meta }}
                 </div>
             </div>
-            <div class="product-name" @click.stop.self="openProduct">{{ name }}</div>
-            <div v-if="discount" class="product-price discount" :data-new="discountString" @click.stop.self="openProduct">{{ priceString }}</div>
-            <div v-else="" class="product-price" @click.stop.self="openProduct">{{ priceString }}</div>
-            <div class="btn waves-effect" @click="addItem">Додати в кошик</div>
+            <div class="product-name">{{ name }}</div>
+            <div v-if="discount" class="product-price discount" :data-new="discountString">{{ priceString }}</div>
+            <div v-else="" class="product-price">{{ priceString }}</div>
+            <div class="btn waves-effect" @click.stop="addItem">Додати в кошик</div>
         </div>
     </div>
 </template>
